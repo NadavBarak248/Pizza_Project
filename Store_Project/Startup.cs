@@ -80,7 +80,7 @@ namespace Store_Project
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    // change this parameters for changing home page
+                    //  change this parameters for changing home page
                     pattern: "{controller=Pizzas}/{action=Index}/{id?}");
             });
         }
