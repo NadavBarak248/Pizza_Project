@@ -1,0 +1,39 @@
+﻿@model Store_Project.Models.Tag
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>יצירת תגית</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_tag" class="control-label"></label>
+                <select asp-for="Pizza_tag" class="form-control" asp-items="@ViewBag.pizzas"></select>
+                <span asp-validation-for="Pizza_tag" class="text-danger"></span>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-group">
+                <input type="submit" value="אישור" class="btn btn-primary" />
+                <a type="button" class="btn btn-info" asp-action="Index">חזרה לתפריט</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+

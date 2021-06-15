@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Store_Project.Models.Tag>
+
+@{ ViewData["Title"] = "Tags"; }
+
+<h1>תגיות</h1>
+
+<table class="table table-striped" dir="rtl">
+    <thead class="table-dark">
+        <tr>
+            <th colspan="4">
+                <input name="searchquery" id="searchQuery" placeholder="חפש תגיות..." autocomplete="off" />
+            </th>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                מספר
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pizza_tag)
+            </th>
+            <th>
+                <a class="btn btn-secondary" asp-action="Create">הוסף</a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Pizza_tag.Count)
+    </td>
+    <td>
+        @for (int i = 0; i < item.Pizza_tag.Count; i++)
+        {
+@Html.DisplayFor(m => item.Pizza_tag[i].Name);
+if (i == item.Pizza_tag.Count - 1)
+    break;
+@:<br />
+}
+    </td>
+    <td>
+        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">ערוך</a>
+    </td>
+</tr>
+}
+    </tbody>
+</table>
+
+
+<script type="text/x-custom-html" id="tableSearchTemplate">
+
+    <tr>
+        <td>
+            {name}
+        </td>
+        <td>
+            {count}
+        </td>
+        <td>
+            {pizzas}
+        </td>
+        <td>
+            <a class="btn btn-warning" href="/Pizzas/Edit/{id}">ערוך</a>
+        </td>
+    </tr>
+
+
+</script>
+
+
+@section Scripts{
+    <script src="~/js/tagSearch.js"></script>
+}

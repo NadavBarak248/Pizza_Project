@@ -1,0 +1,88 @@
+﻿@model Store_Project.Models.Pizza
+
+@{ ViewData["Title"] = "Create"; }
+
+
+<h1>יצירת פיצה</h1>
+<hr />
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Pizza_size" class="control-label"></label>
+                <select asp-for="Pizza_size" class="form-control" asp-items="@ViewBag.pizzaSizes"></select>
+                <span asp-validation-for="Pizza_size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_width" class="control-label"></label>
+                <select asp-for="Pizza_width" class="form-control" asp-items="@ViewBag.pizzaWidths"></select>
+                <span asp-validation-for="Pizza_width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_sauce" class="control-label"></label>
+                <select asp-for="Pizza_sauce" class="form-control" asp-items="@ViewBag.pizzaSauces"></select>
+                <span asp-validation-for="Pizza_sauce" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_tags" class="control-label"></label>
+                <select asp-for="Pizza_tags" class="form-control" asp-items="@ViewBag.tags"></select>
+                <span asp-validation-for="Pizza_tags" class="text-danger"></span>
+            </div>
+            <div class="form-group form-switch">
+                <table>
+                    <tr>
+                        <td>
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="With_cheese" checked="checked" />
+                            </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>
+                            <label>@Html.DisplayNameFor(model => model.With_cheese)</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_image" class="control-label"></label>
+                <input asp-for="Pizza_image" class="form-control" />
+                <span asp-validation-for="Pizza_image" class="text-danger"></span>
+            </div>
+            <div class="form-group form-switch">
+                <table>
+                    <tr>
+                        <td>
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="To_present" />
+                            </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>
+                            <label>@Html.DisplayNameFor(model => model.To_present)</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-group">
+                <input type="submit" value="אישור" class="btn btn-primary" />
+                <a type="button" class="btn btn-info" asp-action="Index">חזרה לתפריט</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

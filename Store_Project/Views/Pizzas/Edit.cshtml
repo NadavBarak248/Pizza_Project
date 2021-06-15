@@ -1,0 +1,117 @@
+﻿@model Store_Project.Models.Pizza
+
+@{ ViewData["Title"] = "Edit"; }
+
+
+
+<h1>@Model.Name</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_size" class="control-label"></label>
+                <select asp-for="Pizza_size" class="form-control" asp-items="@ViewBag.pizzaSizes"></select>
+                <span asp-validation-for="Pizza_size" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_width" class="control-label"></label>
+                <select asp-for="Pizza_width" class="form-control" asp-items="@ViewBag.pizzaWidths"></select>
+                <span asp-validation-for="Pizza_width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_sauce" class="control-label"></label>
+                <select asp-for="Pizza_sauce" class="form-control" asp-items="@ViewBag.pizzaSauces"></select>
+                <span asp-validation-for="Pizza_sauce" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_tags" class="control-label"></label>
+                <select class="form-control" multiple asp-items="@ViewBag.tags" name="Pizza_tags"></select>
+                <span asp-validation-for="Pizza_tags" class="text-danger"></span>
+            </div>
+            <div class="form-group form-switch">
+                <table>
+                    <tr>
+                        <td>
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="With_cheese" />
+                            </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>
+                            <label>@Html.DisplayNameFor(model => model.With_cheese)</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_image" class="control-label"></label>
+                <input asp-for="Pizza_image" class="form-control" value="@ViewBag.Pizza_image" />
+                <span asp-validation-for="Pizza_image" class="text-danger"></span>
+            </div>
+            <div class="form-group form-switch">
+                <table>
+                    <tr>
+                        <td>
+                            <label class="form-check-label">
+                                <input class="form-check-input" asp-for="To_present" />
+                            </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>
+                            <label>@Html.DisplayNameFor(model => model.To_present)</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-group">
+                <input type="submit" value="שמור שינויים" class="btn btn-primary" />
+                <a type="button" class="btn btn-info" asp-action="Index">חזרה לתפריט</a>
+                <input type="button" value="מחק" class="btn btn-danger" data-toggle="modal" data-target="#Delete">
+
+                <!-- Modal -->
+                <div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">מחיקה</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" dir="rtl">
+                                האם אתה בטוח שאתה רוצה למחוק את "@Html.DisplayFor(model => model.Name)"?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">סגור</button>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">מחק</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

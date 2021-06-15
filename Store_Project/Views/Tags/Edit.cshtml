@@ -1,0 +1,58 @@
+﻿@model Store_Project.Models.Tag
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>עריכת תגית</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pizza_tag" class="control-label"></label>
+                <select class="form-control" multiple asp-items="@ViewBag.pizzas" name="Pizza_tag"></select>
+                <span asp-validation-for="Pizza_tag" class="text-danger"></span>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-group">
+                <input type="submit" value="שמור שינויים" class="btn btn-primary" />
+                <a type="button" class="btn btn-info" asp-action="Index">חזרה לתפריט</a>
+                <input type="button" value="מחק" class="btn btn-danger" data-toggle="modal" data-target="#Delete">
+
+                <!-- Modal -->
+                <div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">מחיקה</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" dir="rtl">
+                                האם אתה בטוח שאתה רוצה למחוק את "@Html.DisplayFor(model => model.Name)"?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">סגור</button>
+                                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Id">מחק</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
