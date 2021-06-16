@@ -53,9 +53,9 @@
     {
         <a asp-action="Edit" asp-route-id="@item.Id" title="הקש כדי לערוך...">
             <div class="card col-md-3 col-sm-4">
-                @if (item.Pizza_image.Image != null)
+                @if (item.Pizza_image.Image_content != null)
                 {
-                    string img = Convert.ToBase64String(item.Pizza_image.Image);
+                    string img = Convert.ToBase64String(item.Pizza_image.Image_content);
                     <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,@img">
                 }
                 <div class="card-body">

@@ -57,9 +57,9 @@
                 </table>
             </div>
             <div class="form-group">
-                @if (Model.Pizza_image.Image != null)
+                @if (Model.Pizza_image.Image_content != null)
                 {
-                    string img = Convert.ToBase64String(Model.Pizza_image.Image);
+                    string img = Convert.ToBase64String(Model.Pizza_image.Image_content);
                     <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,@img">
                 }
                 <label asp-for="Pizza_image.ImageFile" class="control-label"></label>

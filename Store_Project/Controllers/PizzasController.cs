@@ -160,7 +160,7 @@ namespace Store_Project.Controllers
                     using (MemoryStream ms = new MemoryStream())
                     {
                         pizza.Pizza_image.ImageFile.CopyTo(ms);
-                        pizza.Pizza_image.Image = ms.ToArray();
+                        pizza.Pizza_image.Image_content = ms.ToArray();
                     }
                 }
                 
@@ -185,7 +185,7 @@ namespace Store_Project.Controllers
             int[] tagids = pizza.Pizza_tags.Select(tag => tag.Id).ToArray();
             BuildEmptyFieldsViewData(tagids);
             if (pizza.Pizza_image != null)
-                ViewBag.Pizza_image = pizza.Pizza_image.Image;
+                ViewBag.Pizza_image = pizza.Pizza_image.Image_content;
             
             if (pizza == null)
             {
@@ -235,7 +235,7 @@ namespace Store_Project.Controllers
                         {
                             pi.ImageFile = ImageFile;
                             pi.ImageFile.CopyTo(ms);
-                            pi.Image = ms.ToArray();
+                            pi.Image_content = ms.ToArray();
                         }
                     }
                     

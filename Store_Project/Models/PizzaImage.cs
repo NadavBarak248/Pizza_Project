@@ -12,7 +12,7 @@ namespace Store_Project.Models
     {
         public int Id { get; set; }
 
-        public byte[] Image { get; set; }
+        public byte[] Image_content { get; set; }
 
         [NotMapped]
         [Display(Name="Image")]
