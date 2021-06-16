@@ -10,8 +10,8 @@ using Store_Project.Data;
 namespace Store_Project.Migrations
 {
     [DbContext(typeof(Store_ProjectContext))]
-    [Migration("20210604160448_PizzaImage")]
-    partial class PizzaImage
+    [Migration("20210616114840_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,21 @@ namespace Store_Project.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("OrderPizza", b =>
+                {
+                    b.Property<int>("Order_pizzaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Pizza_orderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Order_pizzaId", "Pizza_orderId");
+
+                    b.HasIndex("Pizza_orderId");
+
+                    b.ToTable("OrderPizza");
+                });
 
             modelBuilder.Entity("PizzaTag", b =>
                 {
@@ -34,6 +49,21 @@ namespace Store_Project.Migrations
                     b.HasIndex("Pizza_tagsId");
 
                     b.ToTable("PizzaTag");
+                });
+
+            modelBuilder.Entity("SliceTopping", b =>
+                {
+                    b.Property<int>("ToppingsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("toppingsSlicesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ToppingsId", "toppingsSlicesId");
+
+                    b.HasIndex("toppingsSlicesId");
+
+                    b.ToTable("SliceTopping");
                 });
 
             modelBuilder.Entity("Store_Project.Models.Order", b =>
@@ -78,9 +108,6 @@ namespace Store_Project.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Pizza_sauce")
                         .HasColumnType("int");
 
@@ -93,15 +120,13 @@ namespace Store_Project.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("Slices_number")
-                        .HasColumnType("int");
+                    b.Property<bool>("To_present")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("With_cheese")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("Pizza");
                 });
@@ -175,12 +200,7 @@ namespace Store_Project.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int?>("SliceId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SliceId");
 
                     b.ToTable("Topping");
                 });
@@ -208,6 +228,21 @@ namespace Store_Project.Migrations
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("OrderPizza", b =>
+                {
+                    b.HasOne("Store_Project.Models.Order", null)
+                        .WithMany()
+                        .HasForeignKey("Order_pizzaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Store_Project.Models.Pizza", null)
+                        .WithMany()
+                        .HasForeignKey("Pizza_orderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("PizzaTag", b =>
                 {
                     b.HasOne("Store_Project.Models.Pizza", null)
@@ -223,6 +258,21 @@ namespace Store_Project.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SliceTopping", b =>
+                {
+                    b.HasOne("Store_Project.Models.Topping", null)
+                        .WithMany()
+                        .HasForeignKey("ToppingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Store_Project.Models.Slice", null)
+                        .WithMany()
+                        .HasForeignKey("toppingsSlicesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Store_Project.Models.Order", b =>
                 {
                     b.HasOne("Store_Project.Models.User", "User_order")
@@ -230,13 +280,6 @@ namespace Store_Project.Migrations
                         .HasForeignKey("User_orderId");
 
                     b.Navigation("User_order");
-                });
-
-            modelBuilder.Entity("Store_Project.Models.Pizza", b =>
-                {
-                    b.HasOne("Store_Project.Models.Order", null)
-                        .WithMany("Pizza_order")
-                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("Store_Project.Models.PizzaImage", b =>
@@ -261,28 +304,11 @@ namespace Store_Project.Migrations
                     b.Navigation("Pizza");
                 });
 
-            modelBuilder.Entity("Store_Project.Models.Topping", b =>
-                {
-                    b.HasOne("Store_Project.Models.Slice", null)
-                        .WithMany("Toppings")
-                        .HasForeignKey("SliceId");
-                });
-
-            modelBuilder.Entity("Store_Project.Models.Order", b =>
-                {
-                    b.Navigation("Pizza_order");
-                });
-
             modelBuilder.Entity("Store_Project.Models.Pizza", b =>
                 {
                     b.Navigation("Pizza_image");
 
                     b.Navigation("Pizza_slices");
-                });
-
-            modelBuilder.Entity("Store_Project.Models.Slice", b =>
-                {
-                    b.Navigation("Toppings");
                 });
 
             modelBuilder.Entity("Store_Project.Models.User", b =>

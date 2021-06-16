@@ -63,7 +63,7 @@ namespace Store_Project.Controllers
 
                     Signin(u);
 
-                    return RedirectToAction(nameof(Index), "Home");
+                    return RedirectToAction(nameof(Login), "Users");
                 }
                 else
                 {
@@ -100,7 +100,7 @@ namespace Store_Project.Controllers
                     //HttpContext.Session.SetString("username", q.First().Username);
 
                     Signin(q.First());
-                    return RedirectToAction(nameof(Index), "Home");
+                    return RedirectToAction(nameof(Index), "Pizzas");
                 }
                 else
                 {
