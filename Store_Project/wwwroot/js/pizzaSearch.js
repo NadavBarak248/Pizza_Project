@@ -64,11 +64,14 @@ function handle_data(e) {
         checked = false;
     }
     if (checked) {
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
         $.ajax({
             type: 'post',
             url: "/Pizzas/Search",
             dataType: 'JSON',
             data: {
+                __RequestVerificationToken: token,
                 tagids: searchtags,
                 searchquery: searchval,
                 sauceid: sauceval,

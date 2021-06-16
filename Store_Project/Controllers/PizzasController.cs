@@ -81,6 +81,8 @@ namespace Store_Project.Controllers
             return View(await q.ToListAsync());
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Search(string searchquery, int[] tagids, int[] sauceid, double pricelimit, string currencyTo)
         {
             if (currencyTo != curName)
