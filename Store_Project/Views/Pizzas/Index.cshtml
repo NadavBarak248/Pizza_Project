@@ -52,25 +52,29 @@
     @foreach (var item in Model)
     {
         <a asp-action="Edit" asp-route-id="@item.Id" title="הקש כדי לערוך...">
-<div class="card col-md-3 col-sm-4">
-    <img class="card-img-top" src="@Html.DisplayFor(modelItem => item.Pizza_image.Image)" alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-        <h6 class="card-subtitle mb-2 text-muted price-shadow">@Html.DisplayFor(modelItem => item.Price) שקלים</h6>
-        <h6 class="card-subtitle mb-2 text-muted">
-            @for (int i = 0; i < item.Pizza_tags.Count; i++)
-            {
-                @Html.DisplayFor(m => item.Pizza_tags[i].Name);
-                if (i == item.Pizza_tags.Count - 1)
-                    break;
-                @:|
-            }
-        </h6>
-        רוטב @Html.DisplayFor(modelItem => item.Pizza_sauce)<br />
-        בצק @Html.DisplayFor(modelItem => item.Pizza_width)<br />
-        פיצה @Html.DisplayFor(modelItem => item.Pizza_size)<br />
-        @if (item.With_cheese)
-        {
+            <div class="card col-md-3 col-sm-4">
+                @if (item.Pizza_image.Image != null)
+                {
+                    string img = Convert.ToBase64String(item.Pizza_image.Image);
+                    <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,@img">
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                    <h6 class="card-subtitle mb-2 text-muted price-shadow">@Html.DisplayFor(modelItem => item.Price) שקלים</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        @for (int i = 0; i < item.Pizza_tags.Count; i++)
+                        {
+            @Html.DisplayFor(m => item.Pizza_tags[i].Name);
+            if (i == item.Pizza_tags.Count - 1)
+                break;
+            @:|
+        }
+                    </h6>
+                    רוטב @Html.DisplayFor(modelItem => item.Pizza_sauce)<br />
+                    בצק @Html.DisplayFor(modelItem => item.Pizza_width)<br />
+                    פיצה @Html.DisplayFor(modelItem => item.Pizza_size)<br />
+                    @if (item.With_cheese)
+                    {
             @:עם גבינה
         }
         else
@@ -79,8 +83,8 @@
         }
 
 
-    </div>
-</div>
+                </div>
+            </div>
 </a>
     }
     </div>
@@ -88,7 +92,7 @@
 <script type="text/x-custom-html" id="tableSearchTemplate">
     <a href="/Pizzas/Edit/{id}" title="הקש כדי לערוך...">
         <div class="card col-md-3 col-sm-4" >
-            <img class="card-img-top" src="{pizza_image}" alt="Card image cap">
+            <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,{pizza_image}">
                         <div class="card-body">
                             <h5 class="card-title">{name}</h5>
                             <h6 class="card-subtitle mb-2 text-muted price-shadow">{price}</h6>

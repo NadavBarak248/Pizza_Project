@@ -7,8 +7,9 @@
         var temp = template;
 
         $.each(val, function (key, value) {
-            if (key == "pizza_image" && value != null)
-                temp = temp.replace('{' + key + '}', value.image)
+            if (key == "pizza_image" && value != null) {
+                temp = temp.replace('{' + key + '}', value.image);
+            }
             else if (key == "pizza_tags" && value.length > 0) {
                 var tags = ''
                 for (var i = 0; i < value.length; i++) {

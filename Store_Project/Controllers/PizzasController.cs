@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -143,15 +145,25 @@ namespace Store_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Pizza_size,Slices_number,Pizza_width,Pizza_sauce,With_cheese, To_present")] Pizza pizza, int[] Pizza_tags, string Pizza_image)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Pizza_size,Slices_number,Pizza_width,Pizza_sauce,With_cheese, To_present")] Pizza pizza, int[] Pizza_tags, IFormFile ImageFile)
         {
             if (ModelState.IsValid)
             {
                 
                 pizza.Pizza_tags = new List<Tag>();
                 pizza.Pizza_tags.AddRange(_context.Tag.Where(x => Pizza_tags.Contains(x.Id)));
-                pizza.Pizza_image = new PizzaImage();
-                pizza.Pizza_image.Image = Pizza_image;
+
+                if (ImageFile != null)
+                {
+                    pizza.Pizza_image = new PizzaImage();
+                    pizza.Pizza_image.ImageFile = ImageFile;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        pizza.Pizza_image.ImageFile.CopyTo(ms);
+                        pizza.Pizza_image.Image = ms.ToArray();
+                    }
+                }
+                
 
 
                 _context.Add(pizza);
@@ -187,7 +199,7 @@ namespace Store_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Pizza_size,Slices_number,Pizza_width,Pizza_sauce,With_cheese, To_present")] Pizza pizza, int[] Pizza_tags, string Pizza_image)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Pizza_size,Slices_number,Pizza_width,Pizza_sauce,With_cheese, To_present")] Pizza pizza, int[] Pizza_tags, IFormFile ImageFile)
         {
             if (id != pizza.Id)
             {
@@ -214,10 +226,18 @@ namespace Store_Project.Controllers
                     pizza.Pizza_tags = new List<Tag>();
                     pizza.Pizza_tags.AddRange(_context.Tag.Where(x => Pizza_tags.Contains(x.Id)));
                     _context.Update(pizza);
-                    
+
                     // updating pizza_image
-                    PizzaImage pi = _context.PizzaImage.SingleOrDefault(pi => pi.PizzaId == id);
-                    pi.Image = Pizza_image;
+                    if (ImageFile != null)
+                    {
+                        PizzaImage pi = _context.PizzaImage.SingleOrDefault(pi => pi.PizzaId == id);
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            pi.ImageFile = ImageFile;
+                            pi.ImageFile.CopyTo(ms);
+                            pi.Image = ms.ToArray();
+                        }
+                    }
                     
                     await _context.SaveChangesAsync();
 
