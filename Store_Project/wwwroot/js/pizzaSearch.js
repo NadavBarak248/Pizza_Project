@@ -7,8 +7,9 @@
         var temp = template;
 
         $.each(val, function (key, value) {
-            if (key == "pizza_image" && value != null)
-                temp = temp.replace('{' + key + '}', value.image)
+            if (key == "pizza_image" && value != null) {
+                temp = temp.replace('{' + key + '}', value.image_content);
+            }
             else if (key == "pizza_tags" && value.length > 0) {
                 var tags = ''
                 for (var i = 0; i < value.length; i++) {
@@ -63,11 +64,14 @@ function handle_data(e) {
         checked = false;
     }
     if (checked) {
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
         $.ajax({
             type: 'post',
             url: "/Pizzas/Search",
             dataType: 'JSON',
             data: {
+                __RequestVerificationToken: token,
                 tagids: searchtags,
                 searchquery: searchval,
                 sauceid: sauceval,
