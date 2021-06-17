@@ -19,6 +19,7 @@ namespace Store_Project.Models
         public IFormFile ImageFile { get; set; }
 
         public int PizzaId { get; set; }
+       
         public Pizza Pizza { get; set; }
     }
 }

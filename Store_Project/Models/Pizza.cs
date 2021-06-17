@@ -36,20 +36,20 @@ namespace Store_Project.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "שם")]
+        [Required(ErrorMessage = "you must input the Pizza name"), Display(Name = "שם")]
         public string Name { get; set; }
 
         [Display(Name = "מחיר")]
         public double Price { get; set; }
         // 20 + 10*size + slice*toppings
 
-        [Display(Name = "גודל")]
+        [Required(ErrorMessage = "you must input the Pizza size"), Display(Name = "גודל")]
         public Size Pizza_size { get; set; }
 
         [Display(Name = "תוספות")]
         public List<Slice> Pizza_slices { get; set; }
 
-        [Display(Name = "עובי")]
+        [Required(ErrorMessage = "you must input the Pizza width"), Display(Name = "עובי")]
         public Width Pizza_width { get; set; }
 
         [Display(Name ="רוטב")]

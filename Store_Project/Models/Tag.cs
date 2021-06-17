@@ -10,10 +10,10 @@ namespace Store_Project.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "תגית")]
+        [Required, Display(Name = "Tag")]
         public string Name { get; set; }
 
-        [Display(Name="פיצות")]
+        [Display(Name="Pizza tag")]
         public List<Pizza> Pizza_tag { get; set; }
     }
 }
