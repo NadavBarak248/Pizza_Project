@@ -26,16 +26,14 @@
                         </li>
                         @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
-                            </li>
-                        }
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
+            </li> }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
-                            </li>
-                        }
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
+            </li>}
                     </ul>
                 </div>
             </div>
@@ -54,6 +52,13 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+
+    <script src="~/lib/forModal/popper.min.js"></script>
+    <script src="~/lib/forModal/bootstrap.min.js"></script>
+
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -17,7 +17,7 @@ namespace Store_Project.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "you must enter the user name"),]
         public String Username { get; set; }
 
         [Required]
