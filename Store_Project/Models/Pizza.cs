@@ -36,38 +36,38 @@ namespace Store_Project.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "you must input the Pizza name"), Display(Name = "שם")]
+        [Required(ErrorMessage = "you must input the Pizza name"), Display(Name = "Pizza Name")]
         public string Name { get; set; }
-
-        [Display(Name = "מחיר")]
+       
+        [DataType(DataType.Currency)]
         public double Price { get; set; }
         // 20 + 10*size + slice*toppings
 
-        [Required(ErrorMessage = "you must input the Pizza size"), Display(Name = "גודל")]
+        [Required(ErrorMessage = "you must input the Pizza size"), Display(Name = "Pizza size")]
         public Size Pizza_size { get; set; }
 
-        [Display(Name = "תוספות")]
+        [Display(Name = "toppings")]
         public List<Slice> Pizza_slices { get; set; }
 
-        [Required(ErrorMessage = "you must input the Pizza width"), Display(Name = "עובי")]
+        [Required(ErrorMessage = "you must input the Pizza width"), Display(Name = "Dough thickness")]
         public Width Pizza_width { get; set; }
 
-        [Display(Name ="רוטב")]
+        [Display(Name ="Pizza sauce")]
         public Sauce Pizza_sauce { get; set; }
 
-        [Display(Name="עם גבינה")]
+        [Display(Name="with cheese")]
         public bool With_cheese { get; set; }
 
-        [Display(Name="תגיות")]
+        [Display(Name="Tags")]
         public List<Tag> Pizza_tags { get; set; }
 
-        [Display(Name="תמונה")]
+        [Display(Name="Pizza Image")]
         public PizzaImage Pizza_image { get; set; }
 
-        [Display(Name ="להציג")]
+        [Display(Name ="Display")]
         public bool To_present { get; set; }
 
-        [Display(Name ="הזמנות")]
+        [Display(Name ="Orders")]
         public List<Order> Order_pizza{ get; set; }
     }
 }

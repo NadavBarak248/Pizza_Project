@@ -13,6 +13,8 @@ namespace Store_Project.Models
         [Required(ErrorMessage = "you must input the topping name")]
         public string Name { get; set; }
 
+        [Range(0,10)]
+        [DataType(DataType.Currency)]
         public double Price { get; set; }
 
         public List<Slice> toppingsSlices { get; set; }
