@@ -20,6 +20,7 @@ namespace Store_Project.Models
         [Required(ErrorMessage = "you must enter the user name"),]
         public String Username { get; set; }
 
+        //[RegularExpression("^[A-Z]+[a-zA-Z0-9]*$", ErrorMessage = "password must be .... ")] אם מוסיפים צריך ליצור את הcontroller שוב ולעדכן DB
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
