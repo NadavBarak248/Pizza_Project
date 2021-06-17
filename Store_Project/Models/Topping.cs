@@ -9,7 +9,7 @@ namespace Store_Project.Models
     public class Topping
     {
         public int Id { get; set; }
-        [StringLength(10)]
+
         [Required(ErrorMessage = "you must input the topping name")]
         public string Name { get; set; }
 

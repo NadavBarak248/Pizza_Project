@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store_Project.Data;
 
 namespace Store_Project.Migrations
 {
     [DbContext(typeof(Store_ProjectContext))]
-    [Migration("20210616135331_init1")]
-    partial class init1
+    partial class Store_ProjectContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -77,6 +75,7 @@ namespace Store_Project.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Location")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Order_date")
@@ -88,7 +87,7 @@ namespace Store_Project.Migrations
                     b.Property<DateTime>("Time_delivered")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("User_orderId")
+                    b.Property<int>("User_orderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -106,6 +105,7 @@ namespace Store_Project.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Pizza_sauce")
@@ -138,8 +138,8 @@ namespace Store_Project.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("Image_content")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("PizzaId")
                         .HasColumnType("int");
@@ -180,6 +180,7 @@ namespace Store_Project.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -195,6 +196,7 @@ namespace Store_Project.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
@@ -277,7 +279,9 @@ namespace Store_Project.Migrations
                 {
                     b.HasOne("Store_Project.Models.User", "User_order")
                         .WithMany("User_orders")
-                        .HasForeignKey("User_orderId");
+                        .HasForeignKey("User_orderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User_order");
                 });
