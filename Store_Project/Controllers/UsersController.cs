@@ -24,7 +24,6 @@ namespace Store_Project.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            //HttpContext.Session.Clear();
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -37,7 +36,7 @@ namespace Store_Project.Controllers
             return View();
         }
 
-        public IActionResult AccessDenied()
+        public IActionResult AccessDenied()  
         {
             return View();
         }
@@ -93,12 +92,10 @@ namespace Store_Project.Controllers
                         where u.Username == user.Username && u.Password == user.Password
                         select u;
 
-                //var q = _context.User.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
 
                 if (q.Count() > 0)//q != null
                 {
-                    //HttpContext.Session.SetString("username", q.First().Username);
-
+                   
                     Signin(q.First());
                     return RedirectToAction(nameof(Index), "Pizzas");
                 }
