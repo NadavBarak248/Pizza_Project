@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +13,28 @@ using Store_Project.Models;
 
 namespace Store_Project.Controllers
 {
+
+    
+
     public class PizzasController : Controller
     {
+        public async Task<IActionResult> Tweeter()
+        {
+            WebRequest request = WebRequest.Create("https://api.twitter.com/2/users/1417505386249261065/tweets?max_results=5");
+            request.Headers.Add("Authorization", "Bearer AAAAAAAAAAAAAAAAAAAAADN2RwEAAAAA99APpYwtvppWfW2duHjt8Ttu4eo%3DWsyqvizl9TMvIhFM10BraeoEw5gIbctWF12DqMUFvkdsgv92pH");
+            using (System.IO.Stream s = request.GetResponse().GetResponseStream())
+            {
+                using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
+                {
+                    var jsonResponse = sr.ReadToEnd();
+                    ViewData["Tweets"] = jsonResponse;
+                }
+            }
+            return View();
+        }
+   
+
+
         private readonly Store_ProjectContext _context;
         private double curVal = 1;
         private string curName = "ILS";
