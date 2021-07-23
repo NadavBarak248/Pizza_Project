@@ -11,25 +11,26 @@ namespace Store_Project.Models
     [JsonConverter(typeof(StringEnumConverter))]
     public enum Size
     {
-        אישית,
-        בינונית,
-        משפחתית,
-        ענקית
+        Small,
+        Medium,
+        Large,
+        Extra_Large
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum Width
+    public enum Crust
     {
-        דק,
-        עבה
+        Thin,
+        Thick,
+        Gluten_Free
     }
 
     [JsonConverter(typeof(StringEnumConverter))]
     public enum Sauce
     {
-        עגבניות,
-        פסטו,
-        שמנת
+        Tomato,
+        Pesto,
+        Alfredo
     }
 
     public class Pizza
@@ -43,16 +44,16 @@ namespace Store_Project.Models
         public double Price { get; set; }
         // 20 + 10*size + slice*toppings
 
-        [Required(ErrorMessage = "you must input the Pizza size"), Display(Name = "Pizza size")]
+        [Required(ErrorMessage = "you must input the Pizza size"), Display(Name = "Pizza Size")]
         public Size Pizza_size { get; set; }
 
-        [Display(Name = "toppings")]
+        [Display(Name = "Toppings")]
         public List<Slice> Pizza_slices { get; set; }
 
-        [Required(ErrorMessage = "you must input the Pizza width"), Display(Name = "Dough thickness")]
-        public Width Pizza_width { get; set; }
+        [Required(ErrorMessage = "you must select a Crust"), Display(Name = "Crust")]
+        public Crust Pizza_width { get; set; }
 
-        [Display(Name ="Pizza sauce")]
+        [Display(Name ="Pizza Sauce")]
         public Sauce Pizza_sauce { get; set; }
 
         [Display(Name="with cheese")]

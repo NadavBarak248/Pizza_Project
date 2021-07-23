@@ -10,7 +10,7 @@ namespace Store_Project.Models
     {
         Guest,
         Customer,
-        Delivery_person,
+        Delivery_Man,
         Manager        
     }
     public class User

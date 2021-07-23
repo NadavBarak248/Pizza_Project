@@ -10,7 +10,7 @@ namespace Store_Project.Models
     {
         public int Id { get; set; }
 
-        [Required, Display(Name = "Tag")]
+        [Required(ErrorMessage = "you must input Tag name"), Display(Name = "Tag")]
         public string Name { get; set; }
 
         [Display(Name="Pizza tag")]
