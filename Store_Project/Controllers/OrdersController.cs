@@ -54,7 +54,7 @@ namespace Store_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Order_date,Expected_delivery,Time_delivered,Price,Location")] Order order)
+        public async Task<IActionResult> Create([Bind("Id,Order_date,Price,Location")] Order order)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Store_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Order_date,Expected_delivery,Time_delivered,Price,Location")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Order_date,Price,Location")] Order order)
         {
             if (id != order.Id)
             {

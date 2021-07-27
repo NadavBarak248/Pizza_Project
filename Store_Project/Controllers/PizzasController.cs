@@ -53,7 +53,7 @@ namespace Store_Project.Controllers
                 Name = s.ToString()
             };
 
-            var widthEnum = from Width w in Enum.GetValues(typeof(Width))
+            var widthEnum = from Crust w in Enum.GetValues(typeof(Crust))
             select new
             {
                 ID = (int)w,
@@ -91,6 +91,21 @@ namespace Store_Project.Controllers
         // GET: Pizzas
         public async Task<IActionResult> Index()
         {
+            BuildEmptyFieldsViewData();
+            IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_image)
+                                         where
+                                         (p.To_present == true)
+
+                                         orderby p.Price descending
+                                         select p;
+
+            return View(await q.ToListAsync());
+        }
+
+        // GET: Pizzas
+        public async Task<IActionResult> Menu()
+        {
+            await Tweeter();
             BuildEmptyFieldsViewData();
             IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_image)
                                          where

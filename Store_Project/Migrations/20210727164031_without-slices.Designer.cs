@@ -3,20 +3,22 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store_Project.Data;
 
 namespace Store_Project.Migrations
 {
     [DbContext(typeof(Store_ProjectContext))]
-    partial class Store_ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20210727164031_without-slices")]
+    partial class withoutslices
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.8")
+                .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("OrderPizza", b =>
@@ -49,27 +51,15 @@ namespace Store_Project.Migrations
                     b.ToTable("PizzaTag");
                 });
 
-            modelBuilder.Entity("PizzaTopping", b =>
-                {
-                    b.Property<int>("Pizza_toppingsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Toppings_pizzaId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Pizza_toppingsId", "Toppings_pizzaId");
-
-                    b.HasIndex("Toppings_pizzaId");
-
-                    b.ToTable("PizzaTopping");
-                });
-
             modelBuilder.Entity("Store_Project.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Expected_delivery")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -80,6 +70,9 @@ namespace Store_Project.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<DateTime>("Time_delivered")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("User_orderId")
                         .HasColumnType("int");
@@ -102,6 +95,9 @@ namespace Store_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PizzaId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Pizza_sauce")
                         .HasColumnType("int");
 
@@ -117,10 +113,17 @@ namespace Store_Project.Migrations
                     b.Property<bool>("To_present")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("ToppingId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("With_cheese")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PizzaId");
+
+                    b.HasIndex("ToppingId");
 
                     b.ToTable("Pizza");
                 });
@@ -234,21 +237,6 @@ namespace Store_Project.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PizzaTopping", b =>
-                {
-                    b.HasOne("Store_Project.Models.Topping", null)
-                        .WithMany()
-                        .HasForeignKey("Pizza_toppingsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Store_Project.Models.Pizza", null)
-                        .WithMany()
-                        .HasForeignKey("Toppings_pizzaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Store_Project.Models.Order", b =>
                 {
                     b.HasOne("Store_Project.Models.User", "User_order")
@@ -258,6 +246,17 @@ namespace Store_Project.Migrations
                         .IsRequired();
 
                     b.Navigation("User_order");
+                });
+
+            modelBuilder.Entity("Store_Project.Models.Pizza", b =>
+                {
+                    b.HasOne("Store_Project.Models.Pizza", null)
+                        .WithMany("Pizza_toppings")
+                        .HasForeignKey("PizzaId");
+
+                    b.HasOne("Store_Project.Models.Topping", null)
+                        .WithMany("toppingsSlices")
+                        .HasForeignKey("ToppingId");
                 });
 
             modelBuilder.Entity("Store_Project.Models.PizzaImage", b =>
@@ -274,6 +273,13 @@ namespace Store_Project.Migrations
             modelBuilder.Entity("Store_Project.Models.Pizza", b =>
                 {
                     b.Navigation("Pizza_image");
+
+                    b.Navigation("Pizza_toppings");
+                });
+
+            modelBuilder.Entity("Store_Project.Models.Topping", b =>
+                {
+                    b.Navigation("toppingsSlices");
                 });
 
             modelBuilder.Entity("Store_Project.Models.User", b =>

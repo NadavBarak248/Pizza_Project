@@ -18,8 +18,6 @@ namespace Store_Project.Data
 
         //public DbSet<Store_Project.Models.ToppingImage> ToppingImage { get; set; }
 
-        public DbSet<Store_Project.Models.Slice> Slice { get; set; }
-
         public DbSet<Store_Project.Models.Pizza> Pizza { get; set; }
 
         public DbSet<Store_Project.Models.Tag> Tag { get; set; }

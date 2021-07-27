@@ -48,7 +48,7 @@ namespace Store_Project.Models
         public Size Pizza_size { get; set; }
 
         [Display(Name = "Toppings")]
-        public List<Slice> Pizza_slices { get; set; }
+        public List<Topping> Pizza_toppings { get; set; }
 
         [Required(ErrorMessage = "you must select a Crust"), Display(Name = "Crust")]
         public Crust Pizza_width { get; set; }

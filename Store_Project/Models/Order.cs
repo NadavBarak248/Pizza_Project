@@ -19,12 +19,6 @@ namespace Store_Project.Models
         [Display(Name = "Order Date")]
         public DateTime Order_date { get; set; }
 
-        [Display(Name = "Expected Delivery Time")]
-        public DateTime Expected_delivery { get; set; }
-
-        [Display(Name = "Delivery Time")]
-        public DateTime Time_delivered { get; set; }
-
         public double Price { get; set; }
 
         [Required]

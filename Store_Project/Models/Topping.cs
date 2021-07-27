@@ -17,7 +17,7 @@ namespace Store_Project.Models
         [DataType(DataType.Currency)]
         public double Price { get; set; }
 
-        public List<Slice> toppingsSlices { get; set; }
+        public List<Pizza> Toppings_pizza { get; set; }
     }
     
 }
