@@ -55,6 +55,7 @@ namespace Store_Project.Controllers
 
                 if (q == null)
                 {
+                    user.Type = User_type.Customer;
                     _context.Add(user);
                     await _context.SaveChangesAsync();
 
@@ -93,7 +94,7 @@ namespace Store_Project.Controllers
                         select u;
 
 
-                if (q.Count() > 0)//q != null
+                if (q.Count() > 0)
                 {
                    
                     Signin(q.First());
@@ -121,7 +122,7 @@ namespace Store_Project.Controllers
 
             var authProperties = new AuthenticationProperties
             {
-                //ExpireUtc = DateTimeOffset.UtcNow.AddMinutes(10)
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(1)
             };
 
             await HttpContext.SignInAsync(

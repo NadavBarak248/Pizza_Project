@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,8 +15,7 @@ using Store_Project.Models;
 namespace Store_Project.Controllers
 {
 
-    
-
+    [Authorize]
     public class PizzasController : Controller
     {
         public async Task<IActionResult> Tweeter()

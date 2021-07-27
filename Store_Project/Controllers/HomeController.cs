@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Store_Project.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,7 +20,6 @@ namespace Store_Project.Controllers
             _logger = logger;
         }
 
-        [Authorize]
         public IActionResult Index()
         {
             return View();

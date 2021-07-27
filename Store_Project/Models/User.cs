@@ -10,14 +10,13 @@ namespace Store_Project.Models
     {
         Guest,
         Customer,
-        Delivery_Man,
         Manager        
     }
     public class User
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "you must enter the user name"),]
+        [Required(ErrorMessage = "you must enter the user name")]
         public String Username { get; set; }
 
         [RegularExpression("^[A-Z]+[a-zA-Z0-9]*$", ErrorMessage = "password must be .... ")] 
@@ -25,7 +24,7 @@ namespace Store_Project.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        public User_type Type { get; set; } = User_type.Customer;
+        public User_type Type { get; set; } = User_type.Guest;
 
         public List<Order> User_orders { get; set; }
     }
