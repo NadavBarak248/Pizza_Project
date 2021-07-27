@@ -10,22 +10,22 @@ using Store_Project.Models;
 
 namespace Store_Project.Controllers
 {
-    public class OrdersController : Controller
+    public class BranchesController : Controller
     {
         private readonly Store_ProjectContext _context;
 
-        public OrdersController(Store_ProjectContext context)
+        public BranchesController(Store_ProjectContext context)
         {
             _context = context;
         }
 
-        // GET: Orders
+        // GET: Branches
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Order.ToListAsync());
+            return View(await _context.Branch.ToListAsync());
         }
 
-        // GET: Orders/Details/5
+        // GET: Branches/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace Store_Project.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
+            var branch = await _context.Branch
+                .FirstOrDefaultAsync(m => m.id == id);
+            if (branch == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(branch);
         }
 
-        // GET: Orders/Create
+        // GET: Branches/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Orders/Create
+        // POST: Branches/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Order_date,Price")] Order order)
+        public async Task<IActionResult> Create([Bind("id,Branch_name,location")] Branch branch)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
+                _context.Add(branch);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(branch);
         }
 
-        // GET: Orders/Edit/5
+        // GET: Branches/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace Store_Project.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order.FindAsync(id);
-            if (order == null)
+            var branch = await _context.Branch.FindAsync(id);
+            if (branch == null)
             {
                 return NotFound();
             }
-            return View(order);
+            return View(branch);
         }
 
-        // POST: Orders/Edit/5
+        // POST: Branches/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Order_date,Price")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("id,Branch_name,location")] Branch branch)
         {
-            if (id != order.Id)
+            if (id != branch.id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Store_Project.Controllers
             {
                 try
                 {
-                    _context.Update(order);
+                    _context.Update(branch);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.Id))
+                    if (!BranchExists(branch.id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace Store_Project.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(branch);
         }
 
-        // GET: Orders/Delete/5
+        // GET: Branches/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace Store_Project.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
+            var branch = await _context.Branch
+                .FirstOrDefaultAsync(m => m.id == id);
+            if (branch == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(branch);
         }
 
-        // POST: Orders/Delete/5
+        // POST: Branches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var order = await _context.Order.FindAsync(id);
-            _context.Order.Remove(order);
+            var branch = await _context.Branch.FindAsync(id);
+            _context.Branch.Remove(branch);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderExists(int id)
+        private bool BranchExists(int id)
         {
-            return _context.Order.Any(e => e.Id == id);
+            return _context.Branch.Any(e => e.id == id);
         }
     }
 }

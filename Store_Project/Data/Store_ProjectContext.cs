@@ -27,5 +27,7 @@ namespace Store_Project.Data
         public DbSet<Store_Project.Models.Order> Order { get; set; }
 
         public DbSet<Store_Project.Models.PizzaImage> PizzaImage { get; set; }
+
+        public DbSet<Store_Project.Models.Branch> Branch { get; set; }
     }
 }

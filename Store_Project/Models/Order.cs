@@ -22,6 +22,6 @@ namespace Store_Project.Models
         public double Price { get; set; }
 
         [Required]
-        public string Location { get; set; }
+        public Branch branch_Id { get; set; }
     }
 }

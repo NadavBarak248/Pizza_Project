@@ -51,7 +51,7 @@
 
     @foreach (var item in Model)
     {
-<a asp-action="Edit" asp-route-id="@item.Id" title="הקש כדי לערוך...">
+<a asp-action="AddToOrder" asp-route-id="@item.Id" title="Add to Order...">
     <div class="card col-md-3 col-sm-4">
         @if (item.Pizza_image.Image_content != null)
         {
@@ -88,7 +88,7 @@ else
 </div>
 
 <script type="text/x-custom-html" id="tableSearchTemplate">
-    <a href="/Pizzas/Edit/{id}" title="הקש כדי לערוך...">
+    <a href="/Pizzas/AddToOrder/{id}" title="Add to Order...">
         <div class="card col-md-3 col-sm-4" >
             <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,{pizza_image}">
                         <div class="card-body">

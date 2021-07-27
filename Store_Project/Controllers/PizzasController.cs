@@ -105,7 +105,7 @@ namespace Store_Project.Controllers
         // GET: Pizzas
         public async Task<IActionResult> Menu()
         {
-            await Tweeter();
+            //await Tweeter();
             BuildEmptyFieldsViewData();
             IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_image)
                                          where
@@ -230,6 +230,24 @@ namespace Store_Project.Controllers
                 return NotFound();
             }
             return View(pizza);
+        }
+
+        public async Task<IActionResult> AddToOrder(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            List<int> pizzasorder = ViewBag.pizzasorder;
+            if (pizzasorder == null)
+            {
+                pizzasorder = new List<int>();
+            }
+            pizzasorder.Add((int)id);
+            ViewBag.pizzasorder = pizzasorder;
+            
+            return View("Menu");
         }
 
         // POST: Pizzas/Edit/5
