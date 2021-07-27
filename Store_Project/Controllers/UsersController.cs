@@ -122,7 +122,7 @@ namespace Store_Project.Controllers
 
             var authProperties = new AuthenticationProperties
             {
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(1)
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(13)
             };
 
             await HttpContext.SignInAsync(

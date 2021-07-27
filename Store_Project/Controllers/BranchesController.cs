@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Store_Project.Models;
 
 namespace Store_Project.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class BranchesController : Controller
     {
         private readonly Store_ProjectContext _context;
