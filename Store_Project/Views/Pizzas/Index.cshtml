@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_PizzaIndexLayout.cshtml"; }
 
 <h1>Manager's Menu</h1>
-
+<a class="btn btn-secondary" asp-action="Create">Create New Pizza</a>
 
 
 <div id="cards-pizza">
@@ -16,7 +16,7 @@
              @if (item.To_present == false)
              {
                  @: style='opacity:0.25;');
-                int stam = 1;
+                ;
              } >
 
         @if (item.Pizza_image.Image_content != null)
