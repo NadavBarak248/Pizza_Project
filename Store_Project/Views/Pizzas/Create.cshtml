@@ -37,6 +37,11 @@
                 <select asp-for="Pizza_tags" class="form-control" asp-items="@ViewBag.tags"></select>
                 <span asp-validation-for="Pizza_tags" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Pizza_toppings" class="control-label"></label>
+                <select asp-for="Pizza_toppings" class="form-control" asp-items="@ViewBag.toppings"></select>
+                <span asp-validation-for="Pizza_toppings" class="text-danger"></span>
+            </div>
             <div class="form-group form-switch">
                 <table>
                     <tr>

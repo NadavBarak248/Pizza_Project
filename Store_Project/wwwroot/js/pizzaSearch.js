@@ -10,7 +10,7 @@
             if (key == "pizza_image" && value != null) {
                 temp = temp.replace('{' + key + '}', value.image_content);
             }
-            else if (key == "pizza_tags" && value.length > 0) {
+            else if ((key == "pizza_tags" || key == "pizza_toppings") && value.length > 0) {
                 var tags = ''
                 for (var i = 0; i < value.length; i++) {
                     tags += value[i].name + ' | ';
@@ -20,20 +20,20 @@
             }
             else if (key == "with_cheese") {
                 if (value == false)
-                    temp = temp.replace('{' + key + '}', "ללא גבינה");
+                    temp = temp.replace('{' + key + '}', "With Cheese");
                 else
-                    temp = temp.replace('{' + key + '}', "עם גבינה");
+                    temp = temp.replace('{' + key + '}', "Without Cheese");
             }
             else if (key == "price") {
                 switch (currency) {
                     case "ILS":
-                        temp = temp.replace('{' + key + '}', value + " שקלים");
+                        temp = temp.replace('{' + key + '}', "<span>&#8362;</span>" + value.toFixed(2));
                         break;
                     case "USD":
-                        temp = temp.replace('{' + key + '}', value + " דולר");
+                        temp = temp.replace('{' + key + '}', "<span>&#36;</span>" + value.toFixed(2));
                         break;
                     case "EUR":
-                        temp = temp.replace('{' + key + '}', value + " יורו");
+                        temp = temp.replace('{' + key + '}', "<span>&#8364;</span>" + value.toFixed(2));
                         break;
                 }
             }
@@ -60,7 +60,7 @@ function handle_data(e) {
         searchprice == 9999;
     }
     else if ((parseFloat(searchprice) != searchprice) || parseFloat(searchprice) < 0) {
-        $('#priceerror').append('ערכים חיוביים בלבד!');
+        $('#priceerror').append('Only Positive Values!');
         checked = false;
     }
     if (checked) {

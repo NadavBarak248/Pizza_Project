@@ -15,23 +15,9 @@ using Store_Project.Models;
 namespace Store_Project.Controllers
 {
 
-    [Authorize]
+    //[Authorize]
     public class PizzasController : Controller
     {
-        public async Task<IActionResult> Tweeter()
-        {
-            WebRequest request = WebRequest.Create("https://api.twitter.com/2/users/1417505386249261065/tweets?max_results=5");
-            request.Headers.Add("Authorization", "Bearer AAAAAAAAAAAAAAAAAAAAADN2RwEAAAAA99APpYwtvppWfW2duHjt8Ttu4eo%3DWsyqvizl9TMvIhFM10BraeoEw5gIbctWF12DqMUFvkdsgv92pH");
-            using (System.IO.Stream s = request.GetResponse().GetResponseStream())
-            {
-                using (System.IO.StreamReader sr = new System.IO.StreamReader(s))
-                {
-                    var jsonResponse = sr.ReadToEnd();
-                    ViewData["Tweets"] = jsonResponse;
-                }
-            }
-            return View();
-        }
    
 
 
@@ -76,7 +62,7 @@ namespace Store_Project.Controllers
 
         }
 
-        private void BuildEmptyFieldsViewData(int[] selectedTags=null)
+        private void BuildEmptyFieldsViewData(int[] selectedTags=null, int[] selectedToppings=null)
         {
             // Enums
             List<SelectList> EnumsList = GetSelectListsFromEnums();
@@ -86,15 +72,16 @@ namespace Store_Project.Controllers
 
             // Tags
             ViewBag.tags = new MultiSelectList(_context.Tag, nameof(Tag.Id), nameof(Tag.Name), selectedTags);
+
+            // Toppings
+            ViewBag.toppings = new MultiSelectList(_context.Topping, nameof(Topping.Id), nameof(Topping.Name), selectedToppings);
         }
 
         // GET: Pizzas
         public async Task<IActionResult> Index()
         {
             BuildEmptyFieldsViewData();
-            IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_image)
-                                         where
-                                         (p.To_present == true)
+            IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_toppings).Include(p => p.Pizza_image)
 
                                          orderby p.Price descending
                                          select p;
@@ -107,7 +94,7 @@ namespace Store_Project.Controllers
         {
             //await Tweeter();
             BuildEmptyFieldsViewData();
-            IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_image)
+            IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_toppings).Include(p => p.Pizza_image)
                                          where
                                          (p.To_present == true)
 
@@ -129,7 +116,7 @@ namespace Store_Project.Controllers
                 else
                     curVal = 1;
             }
-            IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_image)
+            IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_toppings).Include(p => p.Pizza_image)
                                          where 
                                          (p.To_present == true) &&
                                          (p.Name.Contains(searchquery) || (searchquery == null)) &&
@@ -183,13 +170,17 @@ namespace Store_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Pizza_size,Slices_number,Pizza_width,Pizza_sauce,With_cheese, To_present")] Pizza pizza, int[] Pizza_tags, IFormFile ImageFile)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,Pizza_size,Slices_number,Pizza_width,Pizza_sauce,With_cheese, To_present")] Pizza pizza,
+            int[] Pizza_tags, int[] Pizza_toppings, IFormFile ImageFile)
         {
             if (ModelState.IsValid)
             {
                 
                 pizza.Pizza_tags = new List<Tag>();
                 pizza.Pizza_tags.AddRange(_context.Tag.Where(x => Pizza_tags.Contains(x.Id)));
+
+                pizza.Pizza_toppings = new List<Topping>();
+                pizza.Pizza_toppings.AddRange(_context.Topping.Where(x => Pizza_toppings.Contains(x.Id)));
 
                 if (ImageFile != null)
                 {
@@ -219,9 +210,11 @@ namespace Store_Project.Controllers
                 return NotFound();
             }
 
-            var pizza = await _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_image).FirstOrDefaultAsync(e => e.Id == id);
+            var pizza = await _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_image).Include(p => p.Pizza_toppings).FirstOrDefaultAsync(e => e.Id == id);
             int[] tagids = pizza.Pizza_tags.Select(tag => tag.Id).ToArray();
-            BuildEmptyFieldsViewData(tagids);
+            int[] toppingids = pizza.Pizza_toppings.Select(topp => topp.Id).ToArray();
+
+            BuildEmptyFieldsViewData(tagids, toppingids);
             if (pizza.Pizza_image != null)
                 ViewBag.Pizza_image = pizza.Pizza_image.Image_content;
             
@@ -255,7 +248,7 @@ namespace Store_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Pizza_size,Slices_number,Pizza_width,Pizza_sauce,With_cheese, To_present")] Pizza pizza, int[] Pizza_tags, IFormFile ImageFile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Pizza_size,Slices_number,Pizza_width,Pizza_sauce,With_cheese, To_present")] Pizza pizza, int[] Pizza_tags, int[] Pizza_toppings, IFormFile ImageFile)
         {
             if (id != pizza.Id)
             {
@@ -266,22 +259,33 @@ namespace Store_Project.Controllers
             {
                 try
                 {
-                    // Remove existing tags
-                    Pizza pp = await _context.Pizza.Include(p => p.Pizza_tags).SingleOrDefaultAsync(p => p.Id == id);
+                    // Remove existing tags and toppings
+                    Pizza pp = await _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_toppings).SingleOrDefaultAsync(p => p.Id == id);
                     if (pp != null)
                     {
                         foreach(Tag tg in pp.Pizza_tags.ToList())
                         {
                             pp.Pizza_tags.Remove(tg);
                         }
+                        foreach(Topping tp in pp.Pizza_toppings.ToList())
+                        {
+                            pp.Pizza_toppings.Remove(tp);
+                        }
+
                         await _context.SaveChangesAsync();
                     }
                     _context.Entry(pp).State = EntityState.Detached;
 
-                    // adding new tags selected
+                    // adding new tags and toppings selected
                     pizza.Pizza_tags = new List<Tag>();
                     pizza.Pizza_tags.AddRange(_context.Tag.Where(x => Pizza_tags.Contains(x.Id)));
+
+                    pizza.Pizza_toppings = new List<Topping>();
+                    pizza.Pizza_toppings.AddRange(_context.Topping.Where(x => Pizza_toppings.Contains(x.Id)));
+
                     _context.Update(pizza);
+
+
 
                     // updating pizza_image
                     if (ImageFile != null)

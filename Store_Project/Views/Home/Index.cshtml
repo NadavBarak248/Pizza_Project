@@ -1,8 +1,27 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<List<string>>
+
+@{ ViewData["Title"] = "Home Page"; }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table>
+        <tbody>
+        </tbody>
+    </table>
 </div>
+
+@section Scripts
+{
+    <script src="~/js/twitter.js"></script>
+    <script id="twitter-wjs" type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+
+    <script>
+    var tweets = @Html.Raw(ViewBag.Tweets);
+    $(document).ready(function () { embedTweet(tweets);});
+    </script>
+
+    <div hidden type="text/html" id="hidden-template">
+        <span id="tweet{id}" style="padding-bottom:10px"></span>
+    </div>
+}
