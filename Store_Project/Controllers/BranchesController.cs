@@ -11,7 +11,7 @@ using Store_Project.Models;
 
 namespace Store_Project.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "Manager")]
     public class BranchesController : Controller
     {
         private readonly Store_ProjectContext _context;

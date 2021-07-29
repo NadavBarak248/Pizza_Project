@@ -11,7 +11,7 @@ using Store_Project.Models;
 
 namespace Store_Project.Controllers
 {
-    [Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "Manager")]
     public class TagsController : Controller
     {
         private readonly Store_ProjectContext _context;
@@ -37,7 +37,7 @@ namespace Store_Project.Controllers
         }
 
         // GET: Tags/Search
-        public async Task<IActionResult> Search(string searchquery, int[] tagids, int[] sauceid)
+        public async Task<IActionResult> Search(string searchquery)
         {
             IOrderedQueryable<Tag> q = from t in _context.Tag.Include(t => t.Pizza_tag)
                                        where

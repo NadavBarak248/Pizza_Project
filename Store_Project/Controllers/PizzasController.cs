@@ -106,7 +106,7 @@ namespace Store_Project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Search(string searchquery, int[] tagids, int[] sauceid, double pricelimit, string currencyTo)
+        public async Task<IActionResult> Search(string searchquery, int[] tagids, int[] sauceid, double pricelimit, string currencyTo, int[] toppings)
         {
             if (currencyTo != curName)
             {
@@ -117,11 +117,12 @@ namespace Store_Project.Controllers
                     curVal = 1;
             }
             IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_toppings).Include(p => p.Pizza_image)
-                                         where 
+                                         where
                                          (p.To_present == true) &&
                                          (p.Name.Contains(searchquery) || (searchquery == null)) &&
                                          ((sauceid.Length == 0) || (sauceid.Contains((int)p.Pizza_sauce))) &&
                                          ((tagids.Length == 0) || (p.Pizza_tags.Any(x => tagids.Contains(x.Id)))) &&
+                                         ((toppings.Length == 0) || (p.Pizza_toppings.Any(x => toppings.Contains(x.Id)))) &&
                                          ((pricelimit >= p.Price * curVal) || (pricelimit <= 0))
 
                                          orderby p.Price descending
@@ -181,6 +182,14 @@ namespace Store_Project.Controllers
 
                 pizza.Pizza_toppings = new List<Topping>();
                 pizza.Pizza_toppings.AddRange(_context.Topping.Where(x => Pizza_toppings.Contains(x.Id)));
+
+                pizza.Price = 20;
+                pizza.Price += (int)pizza.Pizza_size * 8;
+                foreach (int tpid in Pizza_toppings)
+                {
+                    Topping tp = _context.Topping.Find(tpid);
+                    pizza.Price += tp.Price;
+                }
 
                 if (ImageFile != null)
                 {
@@ -263,7 +272,7 @@ namespace Store_Project.Controllers
                     Pizza pp = await _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_toppings).SingleOrDefaultAsync(p => p.Id == id);
                     if (pp != null)
                     {
-                        foreach(Tag tg in pp.Pizza_tags.ToList())
+                        foreach (Tag tg in pp.Pizza_tags.ToList())
                         {
                             pp.Pizza_tags.Remove(tg);
                         }

@@ -53,6 +53,7 @@ function handle_data(e) {
     var sauceval = $('#saucesearch').val();
     var searchtags = $('#tagsearch').val();
     var cur = $('#currency').val();
+    var tops = $('#toppingsearch').val();
 
     var searchprice = $('#searchprice').val();
     $('#priceerror').html('');
@@ -76,7 +77,8 @@ function handle_data(e) {
                 searchquery: searchval,
                 sauceid: sauceval,
                 pricelimit: searchprice,
-                currencyTo: cur
+                currencyTo: cur,
+                toppings: tops
             }
         }).done(function (ret_data) {
             update_page(ret_data, cur);
@@ -102,6 +104,10 @@ $(function () {
     });
 
     $('#currency').change(function (e) {
+        handle_data(e);
+    });
+
+    $('#toppingsearch').change(function (e) {
         handle_data(e);
     });
 });
