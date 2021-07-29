@@ -8,9 +8,8 @@ namespace Store_Project.Models
 {
     public enum User_type
     {
-        Guest,
-        Customer,
-        Manager        
+        Admin,
+        Client
     }
     public class User
     {

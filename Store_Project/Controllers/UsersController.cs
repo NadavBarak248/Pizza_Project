@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -55,7 +56,7 @@ namespace Store_Project.Controllers
 
                 if (q == null)
                 {
-                    user.Type = User_type.Customer;
+                    user.Type = User_type.Client;
                     _context.Add(user);
                     await _context.SaveChangesAsync();
 
@@ -70,6 +71,40 @@ namespace Store_Project.Controllers
                     ViewData["Error"] = "unable to comply; username already exist";
                 }
 
+            }
+            return View(user);
+        }
+
+        //GET: Users/RegisterAdmin
+        [Authorize(Roles = "Admin")]
+        public IActionResult RegisterAdmin()
+        {
+            return View();
+        }
+
+        // POST: Users/RegisterAdmin
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegisterAdmin([Bind("Id,Username,Password,Type")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check if the user already exists
+                var userExists = _context.User.FirstOrDefault(u => u.Username == user.Username);
+
+                if (userExists == null)
+                {
+                    _context.Add(user);
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Login), "Users");
+                }
+                else
+                {
+                    ViewData["Error"] = "unable to comply; username already exist";
+                }
             }
             return View(user);
         }
