@@ -1,41 +1,89 @@
 ﻿@model IEnumerable<Store_Project.Models.Topping>
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{ ViewData["Title"] = "Toppings"; }
 
-<h1>Index</h1>
+<h1>Toppings</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<table class="table table-striped" dir="rtl">
+    <thead class="table-dark">
+        <tr>
+            <th colspan="5">
+                <input name="searchquery" id="searchQuery" placeholder="Search Topping..." autocomplete="off" />
+            </th>
+        </tr>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
+                Count
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Toppings_pizza)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th></th>
+            <th>
+                <a class="btn btn-secondary" asp-action="Create">Add New</a>
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Toppings_pizza.Count)
+    </td>
+    <td>
+        @for (int i = 0; i < item.Toppings_pizza.Count; i++)
+        {
+@Html.DisplayFor(m => item.Toppings_pizza[i].Name);
+if (i == item.Toppings_pizza.Count - 1)
+    break;
+@:<br />
 }
+    </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+    <td>
+        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+    </td>
+</tr>}
     </tbody>
 </table>
+
+
+<script type="text/x-custom-html" id="tableSearchTemplate">
+
+    <tr>
+        <td>
+            {name}
+        </td>
+        <td>
+            {count}
+        </td>
+        <td>
+            {pizzas}
+        </td>
+        <td>
+            {price}
+        </td>
+        <td>
+            <a class="btn btn-warning" href="/Toppings/Edit/{id}">ערוך</a>
+        </td>
+    </tr>
+
+
+</script>
+
+
+@section Scripts{
+    <script src="~/js/toppingSearch.js"></script>
+}

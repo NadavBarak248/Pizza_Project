@@ -3,111 +3,61 @@
 @{ ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_PizzaIndexLayout.cshtml"; }
 
-<h1>תפריט</h1>
-
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
-{@Html.AntiForgeryToken()}
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <td>
-                <select class="form-control" id="currency">
-                    <option value="ILS" selected="selected">מחיר בשקלים</option>
-                    <option value="USD">מחיר בדולרים</option>
-                    <option value="EUR">מחיר ביורו</option>
-                </select>
-            </td>
-            <td>
-                <a class="btn btn-secondary" asp-action="Create">הוסף פיצה</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="4">חיפוש</td>
-        </tr>
-        <tr>
-            <td>
-                <input name="searchquery" id="searchQuery" placeholder="חפש פיצה..." autocomplete="off" />
-            </td>
-            <td>
-                <input name="searchprice" id="searchprice" placeholder="הגבלת מחיר" autocomplete="off" />
-                <br />
-                <span name="priceerror" id="priceerror" class="text-danger"></span>
-            </td>
-            <td>
-                <select class="form-control" multiple asp-items="@ViewBag.tags" name="tagsearch" id="tagsearch" style="width:200px"></select>
-            </td>
-            <td>
-                <select class="form-control" multiple asp-items="@ViewBag.pizzaSauces" name="saucesearch" id="saucesearch" style="width:200px"></select>
-            </td>
-        </tr>
-    </thead>
-
-</table>
+<h1>Manager's Menu</h1>
+<a class="btn btn-secondary" asp-action="Create">Create New Pizza</a>
 
 
 <div id="cards-pizza">
 
     @foreach (var item in Model)
     {
-<a asp-action="Edit" asp-route-id="@item.Id" title="הקש כדי לערוך...">
-    <div class="card col-md-3 col-sm-4">
+    <a asp-action="Edit" asp-route-id="@item.Id" title="Click to edit...">
+        <div class='card col-md-3 col-sm-4' 
+             @if (item.To_present == false)
+             {
+                 @: style='opacity:0.25;');
+                ;
+             } >
+
         @if (item.Pizza_image.Image_content != null)
         {
             string img = Convert.ToBase64String(item.Pizza_image.Image_content);
-<img class="card-img-top" alt="Card image cap" src="data:image/png;base64,@img">                }
+    <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,@img">}
         <div class="card-body">
             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-            <h6 class="card-subtitle mb-2 text-muted price-shadow">@Html.DisplayFor(modelItem => item.Price) שקלים</h6>
+            <h6 class="card-subtitle mb-2 text-muted price-shadow">@Html.DisplayFor(modelItem => item.Price)</h6>
             <h6 class="card-subtitle mb-2 text-muted">
                 @for (int i = 0; i < item.Pizza_tags.Count; i++)
                 {
-@Html.DisplayFor(m => item.Pizza_tags[i].Name);
-if (i == item.Pizza_tags.Count - 1)
-    break;
-@: |
+    @Html.DisplayFor(m => item.Pizza_tags[i].Name);
+    if (i == item.Pizza_tags.Count - 1)
+        break;
+    @: |
 }
             </h6>
-            רוטב @Html.DisplayFor(modelItem => item.Pizza_sauce)<br />
-            בצק @Html.DisplayFor(modelItem => item.Pizza_width)<br />
-            פיצה @Html.DisplayFor(modelItem => item.Pizza_size)<br />
+            <h6 class="card-subtitle mb-2 text-muted">
+                @for (int i = 0; i < item.Pizza_toppings.Count; i++)
+                {
+    @Html.DisplayFor(m => item.Pizza_toppings[i].Name);
+    if (i == item.Pizza_toppings.Count - 1)
+        break;
+    @: |
+}
+            </h6>
+            @Html.DisplayFor(modelItem => item.Pizza_sauce) sauce<br />
+            @Html.DisplayFor(modelItem => item.Pizza_width) crust<br />
+            @Html.DisplayFor(modelItem => item.Pizza_size) size<br />
             @if (item.With_cheese)
             {
-@:עם גבינה
+    @:With Cheese
 }
 else
 {
-@:ללא גבינה
+    @:Without Cheese
 }
 
 
         </div>
     </div>
-</a>}
+                </a>}
 </div>
-
-<script type="text/x-custom-html" id="tableSearchTemplate">
-    <a href="/Pizzas/Edit/{id}" title="הקש כדי לערוך...">
-        <div class="card col-md-3 col-sm-4" >
-            <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,{pizza_image}">
-                        <div class="card-body">
-                            <h5 class="card-title">{name}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted price-shadow">{price}</h6>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                {pizza_tags}
-                            </h6>
-                            רוטב {pizza_sauce}<br />
-                            בצק {pizza_width}<br />
-                            פיצה {pizza_size}<br />
-                            {with_cheese}<br />
-                        </div>
-        </div>
-    </a>
-
-</script>
-
-
-@section Scripts{
-    <script src="~/js/pizzaSearch.js"></script>
-}

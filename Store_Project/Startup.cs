@@ -81,7 +81,7 @@ namespace Store_Project
                 endpoints.MapControllerRoute(
                     name: "default",
                     //  change this parameters for changing home page
-                    pattern: "{controller=Users}/{action=Login}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
