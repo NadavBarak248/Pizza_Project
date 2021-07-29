@@ -133,7 +133,7 @@ namespace Store_Project.Controllers
                 {
                    
                     Signin(q.First());
-                    return RedirectToAction(nameof(Index), "Pizzas");
+                    return RedirectToAction(nameof(Index), "Home");
                 }
                 else
                 {

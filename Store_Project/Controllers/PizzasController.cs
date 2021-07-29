@@ -14,8 +14,7 @@ using Store_Project.Models;
 
 namespace Store_Project.Controllers
 {
-
-    //[Authorize]
+    [Authorize]
     public class PizzasController : Controller
     {
    
@@ -78,6 +77,7 @@ namespace Store_Project.Controllers
         }
 
         // GET: Pizzas
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Index()
         {
             BuildEmptyFieldsViewData();
