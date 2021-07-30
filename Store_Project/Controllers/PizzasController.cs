@@ -14,7 +14,7 @@ using Store_Project.Models;
 
 namespace Store_Project.Controllers
 {
-    [Authorize]
+   [Authorize]
     public class PizzasController : Controller
     {
    
@@ -234,25 +234,12 @@ namespace Store_Project.Controllers
             return View(pizza);
         }
 
-        public async Task<IActionResult> AddToOrder(int? id)
+        public IActionResult AddToOrder(List<int> order)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            List<int> pizzasorder = ViewBag.pizzasorder;
-            if (pizzasorder == null)
-            {
-                pizzasorder = new List<int>();
-            }
-            pizzasorder.Add((int)id);
-            ViewBag.pizzasorder = pizzasorder;
-            
-            return View("Menu");
+            return View("Orders/Details", order);
         }
 
-        // POST: Pizzas/Edit/5
+        // POST: Pizzas/Ezdit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
