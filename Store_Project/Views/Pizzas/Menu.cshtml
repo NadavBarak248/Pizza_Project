@@ -3,7 +3,7 @@
 @{ ViewData["Title"] = "Menu";
     Layout = "~/Views/Shared/_PizzaIndexLayout.cshtml"; }
 
-<h1>תפריט</h1>
+<h1>Menu</h1>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
 {@Html.AntiForgeryToken()}
@@ -64,15 +64,16 @@
     <div class="row align-items-stretch" id="toClean">
         @foreach (var item in Model)
         {
-            <a asp-action="Details" asp-route-id="@item.Id">
-                <div class="card h-100">
+            <div class="card h-100">
+                <a asp-action="Details" asp-route-id="@item.Id">
                     @if (item.Pizza_image.Image_content != null)
                     {
                         string img = Convert.ToBase64String(item.Pizza_image.Image_content);
                         <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,@img">}
+                </a>
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                    <p class="card-title">@Html.DisplayFor(modelItem => item.Price) שקלים</p>
+                    <p class="card-title">@Html.DisplayFor(modelItem => item.Price) ש"ח</p>
                     <p class="card-text">
                         @for (int i = 0; i < item.Pizza_tags.Count; i++)
                         {
@@ -101,8 +102,9 @@
                     {
                         @:Without Cheese
                     }
-                    <br / />
-                    <button type="button" class="btn btn-outline-secondary">
+                    <br />
+
+                    <button type="button" class="btn btn-outline-secondary" onclick="MyOrder(@item.Id)">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                             <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"></path>
                         </svg>
@@ -111,14 +113,15 @@
                     </button>
 
                 </div>
-                </div>
-            </a>}
+            </div>
+        }
     </div>
 </div>
 
-<button type="button" class="btn btn-primary">
-    My Order
-</button>
+<div class="d-grid gap-2 col-6 mx-auto" >
+    <button class="btn btn-primary" type="button" asp-controller="Orders" asp-action="Create"> My Order </button>
+</div>
+
 
 <script type="text/x-custom-html" id="tableSearchTemplate">
     <a href="/Pizzas/AddToOrder/{id}" title="Add to Order...">
@@ -143,6 +146,13 @@
 
 </script>
 
+<script>
+    var order = [];
+    function MyOrder(id) {
+        order.push(id);
+        console.log(order);
+    }
+</script>
 
 @section Scripts{
     <script src="~/js/pizzaSearch.js"></script>
