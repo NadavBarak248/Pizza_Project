@@ -56,7 +56,7 @@ namespace Store_Project.Controllers
 
                 if (q == null)
                 {
-                    user.Type = User_type.Client;
+                    user.Type = User_type.Customer;
                     _context.Add(user);
                     await _context.SaveChangesAsync();
 
