@@ -8,9 +8,8 @@ namespace Store_Project.Models
 {
     public enum User_type
     {
-        Guest,
-        Customer,
-        Manager        
+        Admin,
+        Client
     }
     public class User
     {
@@ -24,7 +23,7 @@ namespace Store_Project.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        public User_type Type { get; set; } = User_type.Guest;
+        public User_type Type { get; set; }
 
         public List<Order> User_orders { get; set; }
     }
