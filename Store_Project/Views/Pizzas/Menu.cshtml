@@ -104,7 +104,7 @@
                     }
                     <br />
 
-                    <button type="button" class="btn btn-outline-secondary" onclick="MyOrder(@item.Id)">
+                    <button type="button" class="btn btn-outline-secondary" onclick="AddPizza(@item.Id)">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                             <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"></path>
                         </svg>
@@ -119,7 +119,7 @@
 </div>
 
 <div class="d-grid gap-2 col-6 mx-auto" >
-    <button class="btn btn-primary" type="button" asp-action="AddToOrder()"> My Order </button>
+        <button class="btn btn-primary" type="button" asp-action="AddToOrder" > My Order </button> // need to send the list as parameter 
 </div>
 
 
@@ -148,9 +148,12 @@
 
 <script>
     var order = [];
-    function MyOrder(id) {
+    function AddPizza(id) {
         order.push(id);
         console.log(order);
+    }
+    function MyOrder() {
+        return order;
     }
 </script>
 
