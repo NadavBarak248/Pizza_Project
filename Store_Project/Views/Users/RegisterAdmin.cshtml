@@ -2,10 +2,11 @@
 
 @{
     ViewData["Title"] = "RegisterAdmin";
-    Layout = "_LoginLayout";
+    Layout = "_Layout";
 }
 
-<h1>Register a new Admin user</h1>
+<h1 class="register_title_font">Join To Our Managers</h1>
+<h2 class="register_title_font">Register</h2>
 
 <hr />
 <div class="row">
@@ -23,7 +24,7 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Register" class="btn btn-primary" />
+                <input type="submit" value="Register" class="btn btn-outline-danger" />
             </div>
         </form>
         @if (ViewBag.Error != null)
@@ -34,9 +35,6 @@
     </div>
 </div>
 
-<div>
-    Already registered? <a asp-action="Login">Click here</a> to login
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
