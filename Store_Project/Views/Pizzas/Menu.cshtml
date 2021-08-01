@@ -73,8 +73,9 @@
                 </a>
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                    <p class="card-title">@Html.DisplayFor(modelItem => item.Price) ש"ח</p>
-                    <p class="card-text">
+                    <b class="card-title">@Html.DisplayFor(modelItem => item.Price)</b>
+                    <div class="card-subtitle mb-2 text-muted">
+                        <u>Tags</u>:  
                         @for (int i = 0; i < item.Pizza_tags.Count; i++)
                         {
                             @Html.DisplayFor(m => item.Pizza_tags[i].Name);
@@ -82,7 +83,9 @@
                                 break;
                             @: |
                         }
-                        <br />
+                    </div>
+                    <div class="card-text">
+                        <u>Toppings</u>: 
                         @for (int i = 0; i < item.Pizza_toppings.Count; i++)
                         {
                             @Html.DisplayFor(m => item.Pizza_toppings[i].Name);
@@ -90,7 +93,7 @@
                                 break;
                             @: |
                         }
-                    </p>
+                    </div>
                     @Html.DisplayFor(modelItem => item.Pizza_sauce) sauce<br />
                     @Html.DisplayFor(modelItem => item.Pizza_width) crust<br />
                     @Html.DisplayFor(modelItem => item.Pizza_size) size<br />
@@ -124,25 +127,35 @@
 
 
 <script type="text/x-custom-html" id="tableSearchTemplate">
-    <a href="/Pizzas/AddToOrder/{id}" title="Add to Order...">
-        <div class="card col-md-3 col-sm-4" >
+    <div class="card h-100">
+        <a href="/Pizzas/Details/{id}">
             <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,{pizza_image}">
-                        <div class="card-body">
-                            <h5 class="card-title">{name}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted price-shadow">{price}</h6>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                {pizza_tags}
-                            </h6>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                {pizza_toppings}
-                            </h6>
-                            {pizza_sauce} sauce<br />
-                            {pizza_width} crust<br />
-                            {pizza_size} size<br />
-                            {with_cheese}<br />
+        </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{name}</h5>
+                        <b class="card-title">{price}</b>
+                        <div class="card-subtitle mb-2 text-muted">
+                            <u>Tags</u>:
+                            {pizza_tags}
                         </div>
-        </div>
-    </a>
+                        <div class="card-text">
+                            <u>Toppings</u>:
+                            {pizza_toppings}
+                        </div>
+                        {pizza_sauce} sauce<br />
+                        {pizza_width} crust<br />
+                        {pizza_size} size<br />
+                        {with_cheese}<br />
+
+                        <button type="button" class="btn btn-outline-secondary" onclick="AddPizza({id})">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"></path>
+                            </svg>
+                            Add to Order
+                            <span class="visually-hidden">Button</span>
+                        </button>
+                    </div>
+    </div>
 
 </script>
 
