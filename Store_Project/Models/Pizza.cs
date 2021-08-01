@@ -68,7 +68,5 @@ namespace Store_Project.Models
         [Display(Name ="Display")]
         public bool To_present { get; set; }
 
-        [Display(Name ="Orders")]
-        public List<Order> Order_pizza{ get; set; }
     }
 }

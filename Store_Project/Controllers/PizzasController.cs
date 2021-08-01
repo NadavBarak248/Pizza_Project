@@ -234,9 +234,9 @@ namespace Store_Project.Controllers
             return View(pizza);
         }
 
-        public IActionResult AddToOrder(List<int> order)
+        public IActionResult AddToOrder(List<int> pizzaIds)
         {
-            return View("Orders/Details", order);
+            return View("Orders/Details", pizzaIds);
         }
 
         // POST: Pizzas/Ezdit/5

@@ -122,7 +122,7 @@
 </div>
 
 <div class="d-grid gap-2 col-6 mx-auto" >
-        <button class="btn btn-primary" type="button" asp-action="AddToOrder" > My Order </button> // need to send the list as parameter 
+        <button class="btn btn-primary" type="button" onclick="MyOrder()" > My Order </button> // need to send the list as parameter 
 </div>
 
 
@@ -166,7 +166,17 @@
         console.log(order);
     }
     function MyOrder() {
-        return order;
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+        $.ajax({
+            type: 'post',
+            url: "/Pizzas/AddToOrder",
+            dataType: 'JSON',
+            data: {
+                __RequestVerificationToken: token,
+                pizzaIds: order
+            }
+        });
     }
 </script>
 
