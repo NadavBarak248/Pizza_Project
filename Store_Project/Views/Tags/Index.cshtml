@@ -8,7 +8,7 @@
     <thead class="table-dark">
         <tr>
             <th colspan="4">
-                <input name="searchquery" id="searchQuery" placeholder="חפש תגיות..." autocomplete="off" />
+                <input name="searchquery" id="searchQuery" placeholder="Search..." autocomplete="off" />
             </th>
         </tr>
         <tr>
@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.Pizza_tag)
             </th>
             <th>
-                <a class="btn btn-secondary" asp-action="Create">הוסף</a>
+                <a class="btn btn-secondary" asp-action="Create">Create New</a>
             </th>
         </tr>
     </thead>
@@ -47,7 +47,7 @@ if (i == item.Pizza_tag.Count - 1)
 }
     </td>
     <td>
-        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">ערוך</a>
+        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
     </td>
 </tr>
 }
@@ -68,7 +68,7 @@ if (i == item.Pizza_tag.Count - 1)
             {pizzas}
         </td>
         <td>
-            <a class="btn btn-warning" href="/Toppings/Edit/{id}">ערוך</a>
+            <a class="btn btn-warning" href="/Toppings/Edit/{id}">Edit</a>
         </td>
     </tr>
 

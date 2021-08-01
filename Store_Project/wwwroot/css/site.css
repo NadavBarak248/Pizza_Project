@@ -56,7 +56,7 @@ button.accept-policy {
 html {
     position: relative;
     min-height: 100%;
-    text-align: right;
+    text-align: left;
 }
 
 body {
@@ -74,11 +74,11 @@ body {
 
 table{
     vertical-align: central;
-    text-align: right;
+    text-align: left;
 }
 
 main {
-    text-align: right;
+    text-align: left;
 }
 
 h1{
@@ -86,5 +86,9 @@ h1{
 }
 
 ul,li{
-    margin-right:0;
+    margin-left:0;
+}
+
+#map {
+    height: 100%;
 }

@@ -4,38 +4,82 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Branches</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-secondary" asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Branch_name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.location)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Branch_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.location)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
+
+
+<center><div id="map" style="width: 1000px; height: 700px;"></div></center>
+
+<script>
+    function initialize() {
+        console.log("here");
+        var invisiblePOI = [
+            {
+                featureType: "poi",
+                elementType: "labels",
+                stylers: [
+                    { visibility: "off" }
+                ]
+            }
+        ];
+        const map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: 32.082796, lng: 34.793785 },
+            zoom: 10,
+            styles: invisiblePOI
+        });
+        let branchId = [];
+        let placeId = [];
+        let branchName = [];
+
+        @foreach (var item in Model)
+        {
+            @:branchId.push("@item.id");
+            @:placeId.push("@item.location")
+            @:branchName.push("@item.Branch_name");
+        }
+
+
+
+        var service = new google.maps.places.PlacesService(map);
+
+        for (let i = 0; i < branchId.length; i++) {
+            service.getDetails({
+                placeId: placeId[i]
+            }, function (result, status) {
+                var marker = new google.maps.Marker({
+                    map: map,
+                    title: branchName[i],
+                    place: {
+                        placeId: placeId[i],
+                        location: result.geometry.location
+                    },
+                    url: "Branches\\Details\\" + branchId[i],
+                    icon: {
+                        scaledSize: new google.maps.Size(30, 40),
+                        url: "Pictures\\MonAmour.jpg",
+                        labelOrigin: new google.maps.Point(10, 48)
+                    },
+                    label: {
+                        text: branchName[i],
+                        color: "#ee7a3f",
+                        fontWeight: "bold"
+                    }
+                });
+
+                marker.addListener('click', function () {
+                    window.location.href = this.url;
+                });
+            });
+        }
+    }
+</script>
+
+@section Scripts
+{
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD97JqUBFWSHsjXRxWA89BF1sRV2l5GZho&callback=initialize&libraries=places&v=weekly" async></script>
 }
-    </tbody>
-</table>
+
+

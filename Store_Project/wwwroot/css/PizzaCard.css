@@ -24,7 +24,7 @@
     overflow: hidden;
     width: 300px;
     padding: 0 10px;
-    float: right;
+    float: left;
     text-align:center;
     transition: height 0.5s;
 }

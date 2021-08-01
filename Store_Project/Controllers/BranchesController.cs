@@ -35,7 +35,7 @@ namespace Store_Project.Controllers
                 return NotFound();
             }
 
-            var branch = await _context.Branch
+            var branch = await _context.Branch.Include(b => b.Branch_orders)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (branch == null)
             {
@@ -119,27 +119,8 @@ namespace Store_Project.Controllers
         }
 
         // GET: Branches/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var branch = await _context.Branch
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (branch == null)
-            {
-                return NotFound();
-            }
-
-            return View(branch);
-        }
-
-        // POST: Branches/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        
+        public async Task<IActionResult> Delete(int id)
         {
             var branch = await _context.Branch.FindAsync(id);
             _context.Branch.Remove(branch);
