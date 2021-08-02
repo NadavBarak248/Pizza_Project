@@ -64,7 +64,7 @@ namespace Store_Project.Controllers
 
                     Signin(u);
 
-                    return RedirectToAction(nameof(Login), "Users");
+                    return RedirectToAction(nameof(Index), "Home");
                 }
                 else
                 {
@@ -99,7 +99,7 @@ namespace Store_Project.Controllers
                     _context.Add(user);
                     await _context.SaveChangesAsync();
 
-                    return RedirectToAction(nameof(Login), "Users");
+                    return RedirectToAction(nameof(Index), "Home");
                 }
                 else
                 {
