@@ -71,5 +71,8 @@ namespace Store_Project.Models
         [Display(Name ="Display")]
         public bool To_present { get; set; }
 
+        [Display(Name ="Pizzas in Order")]
+        public List<PizzasInOrder> PizzaOrder{ get; set; }
+
     }
 }

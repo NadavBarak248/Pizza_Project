@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store_Project.Data;
 
 namespace Store_Project.Migrations
 {
     [DbContext(typeof(Store_ProjectContext))]
-    partial class Store_ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20210802075434_pizzasinorder3")]
+    partial class pizzasinorder3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,23 +78,23 @@ namespace Store_Project.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BranchId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Order_date")
                         .HasColumnType("datetime2");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("User_orderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("branch_Idid")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BranchId");
+                    b.HasIndex("User_orderId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("branch_Idid");
 
                     b.ToTable("Order");
                 });
@@ -264,19 +266,19 @@ namespace Store_Project.Migrations
 
             modelBuilder.Entity("Store_Project.Models.Order", b =>
                 {
-                    b.HasOne("Store_Project.Models.Branch", "Branch")
-                        .WithMany("Branch_orders")
-                        .HasForeignKey("BranchId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Store_Project.Models.User", "User_order")
                         .WithMany("User_orders")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("User_orderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Branch");
+                    b.HasOne("Store_Project.Models.Branch", "branch_Id")
+                        .WithMany("Branch_orders")
+                        .HasForeignKey("branch_Idid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("branch_Id");
 
                     b.Navigation("User_order");
                 });

@@ -24,7 +24,29 @@ namespace Store_Project.Controllers
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Order.ToListAsync());
+            IOrderedQueryable<Order> q = from o in _context.Order.Include(o => o.User_order).Include(o => o.Branch).Include(o => o.PizzaOrder).ThenInclude(p => p.Pizzas)
+                                         orderby o.Id ascending
+                                         select o;
+
+            return View(await q.ToListAsync());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Search(string user, string branch, double pricelimit, DateTime endingdate)
+        {
+           
+            IOrderedQueryable < Order > q = from o in _context.Order.Include(o => o.User_order).Include(o => o.Branch).Include(o => o.PizzaOrder).ThenInclude(p => p.Pizzas)
+                                            where
+                                         (o.User_order.Username.Contains(user) || (user == null)) &&
+                                         (o.Branch.Branch_name.Contains(branch) || (branch == null)) &&
+                                         ((pricelimit >= o.Price) || (pricelimit <= 0)) &&
+                                         (o.Order_date <= endingdate) 
+
+                                         orderby o.Id ascending
+                                         select o;
+
+            return Json(await q.ToListAsync());
         }
 
         // GET: Orders/Details/5
@@ -35,8 +57,29 @@ namespace Store_Project.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var q = from o in _context.Order.Include(o => o.PizzaOrder).ThenInclude(p => p.Pizzas)
+                    join b in _context.Branch
+                    on o.BranchId equals b.id
+                    join u in _context.User
+                    on o.UserId equals u.Id
+                    
+                    select new
+                    {
+                        Id = o.Id,
+                        OrderDate = o.Order_date,
+                        Price = o.Price,
+                        Username = u.Username,
+                        Branchname = b.Branch_name,
+                        Pizzas = o.PizzaOrder
+                    };
+            var order = await q.FirstOrDefaultAsync(m => m.Id == id);
+            ViewBag.OrderDate = order.OrderDate;
+            ViewBag.Price = order.Price;
+            ViewBag.Id = order.Id;
+            ViewBag.Username = order.Username;
+            ViewBag.Branchname = order.Branchname;
+            ViewBag.Pizzas = order.Pizzas;
+
             if (order == null)
             {
                 return NotFound();

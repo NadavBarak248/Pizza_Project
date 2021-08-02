@@ -1,41 +1,131 @@
 ﻿@model IEnumerable<Store_Project.Models.Order>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Orders";
 }
 
-<h1>Index</h1>
+<h1>Orders</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+{@Html.AntiForgeryToken()}
+
+
+
+<div class="bg-light p-4">
+    <h4 class="text-black-50">Advanced Search</h4>
+
+    <form id="SearchComplexAjaxForm" class="float">
+        <div class="container">
+            <div class="row">
+                <div class="input-group mb-3">
+                    <input name="searchuser" id="searchuser" placeholder="Username" autocomplete="off" />
+
+                    <div class="col-1"></div>
+
+                    <input name="searchprice" id="searchprice" placeholder="Price Limit" autocomplete="off" />
+                    <br />
+                    <span name="priceerror" id="priceerror" class="text-danger"></span>
+
+                    <div class="col-1"></div>
+
+                    <input name="searchbranch" id="searchbranch" placeholder="Branch name" autocomplete="off" />
+                    
+                    <div class="col-1"></div>
+
+                    <input type="date" id="orderdate" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)" />
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th colspan="6" align="center">
+                All Orders
+            </th>
+        </tr>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Order_date)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.User_order.Username)
+            </th>
+            <th>
+                Pizzas
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Branch.Branch_name)
+            </th>
+            <th>
+            </th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Order_date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+    <tbody id="allorders">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Order_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User_order.Username)
+                </td>
+                <td>
+                    @for (int i = 0; i < item.PizzaOrder.Count; i++)
+                    {
+                        <a href="\Pizzas\Details\@item.PizzaOrder[i].PizzaId">@item.PizzaOrder[i].Pizzas.Name</a>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Branch.Branch_name)
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+<script type="text/x-custom-html" id="tableSearchTemplate">
+             <tr>
+                <td>
+                    {order_date}
+                </td>
+                <td>
+                    {user_order}
+                </td>
+                <td>
+                    {pizzas}
+                </td>
+                <td>
+                    {price}
+                </td>
+                <td>
+                    {branch}
+                </td>
+                <td>
+                    <a class="btn btn-warning" href="\Orders\Details\{id}">Details</a>
+                </td>
+            </tr>
+
+</script>
+
+
+@section Scripts{
+    <script src="~/js/orderSearch.js"></script>
+}

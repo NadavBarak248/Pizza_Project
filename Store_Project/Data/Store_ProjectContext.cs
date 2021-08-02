@@ -14,6 +14,14 @@ namespace Store_Project.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<PizzasInOrder>().HasKey(table => new {
+                table.PizzaId,
+                table.OrderId
+            });
+        }
+
         public DbSet<Store_Project.Models.Topping> Topping { get; set; }
 
         //public DbSet<Store_Project.Models.ToppingImage> ToppingImage { get; set; }

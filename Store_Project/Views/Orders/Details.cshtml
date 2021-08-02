@@ -1,4 +1,4 @@
-﻿@model Store_Project.Models.Order
+﻿@model dynamic
 
 @{
     ViewData["Title"] = "Details";
@@ -10,21 +10,45 @@
     <h4>Order</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Order_date)
+        <dt class="col-sm-2">
+            Order Date
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Order_date)
+        <dd class="col-sm-10">
+            @ViewBag.OrderDate
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
+        <dt class="col-sm-2">
+            Username
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
+        <dd class="col-sm-10">
+            @ViewBag.Username
+        </dd>
+        <dt class="col-sm-2">
+            Price
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Price
+        </dd>
+        <dt class="col-sm-2">
+            Branch
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.Branchname
+        </dd>
+        <dt class="col-sm-2">
+            Pizzas
+        </dt>
+        <dd class="col-sm-10">
+            @for (int i = 0; i < ViewBag.Pizzas.Count; i++)
+            {
+                @ViewBag.Pizzas[i].Quantity
+                @: X 
+                <a href="\Pizzas\Details\@ViewBag.Pizzas[i].PizzaId">@ViewBag.Pizzas[i].Pizzas.Name</a>
+                @:<br />
+            }
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@ViewBag.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
