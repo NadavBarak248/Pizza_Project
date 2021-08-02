@@ -14,6 +14,7 @@ namespace Store_Project.Models
         Small,
         Medium,
         Large,
+        [Display(Name ="Extra Large")]
         Extra_Large
     }
 
@@ -22,6 +23,7 @@ namespace Store_Project.Models
     {
         Thin,
         Thick,
+        [Display(Name = "Gluten Free")]
         Gluten_Free
     }
 
@@ -38,6 +40,7 @@ namespace Store_Project.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "you must input the Pizza name"), Display(Name = "Pizza Name")]
+        [RegularExpression(@"^[a-zA-Z \-]+$", ErrorMessage = "Use letters only please")]
         public string Name { get; set; }
        
         [DataType(DataType.Currency)]

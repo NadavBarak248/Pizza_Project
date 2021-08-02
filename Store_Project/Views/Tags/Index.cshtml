@@ -2,9 +2,9 @@
 
 @{ ViewData["Title"] = "Tags"; }
 
-<h1>תגיות</h1>
+<h1>Tags</h1>
 
-<table class="table table-striped" dir="rtl">
+<table class="table table-striped">
     <thead class="table-dark">
         <tr>
             <th colspan="4">
@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                מספר
+                Number of Pizzas
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Pizza_tag)
@@ -47,7 +47,7 @@ if (i == item.Pizza_tag.Count - 1)
 }
     </td>
     <td>
-        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+        <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Details</a>
     </td>
 </tr>
 }
@@ -68,7 +68,7 @@ if (i == item.Pizza_tag.Count - 1)
             {pizzas}
         </td>
         <td>
-            <a class="btn btn-warning" href="/Toppings/Edit/{id}">Edit</a>
+            <a class="btn btn-warning" href="/Tags/Details/{id}">Details</a>
         </td>
     </tr>
 

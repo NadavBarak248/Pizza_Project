@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Store_Project.Models.Pizza>
 
 @{ ViewData["Title"] = "Menu";
-    Layout = "~/Views/Shared/_PizzaIndexLayout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <h1>Menu</h1>
 
@@ -9,53 +9,52 @@
 {@Html.AntiForgeryToken()}
 
 
-<div>
-    <div class="bg-light p-4">
-        <h4 class="text-black-50">Advanced Search</h4>
 
-        <form id="SearchComplexAjaxForm" class="float">
-            <div class="container">
-                <div class="row">
-                    <div class="input-group mb-3">
-                        <input name="searchquery" id="searchQuery" placeholder="Pizza Name" autocomplete="off" />
+<div class="bg-light p-4">
+    <h4 class="text-black-50">Advanced Search</h4>
 
-                        <div class="col-1"></div>
+    <form id="SearchComplexAjaxForm" class="float">
+        <div class="container">
+            <div class="row">
+                <div class="input-group mb-3">
+                    <input name="searchquery" id="searchQuery" placeholder="Pizza Name" autocomplete="off" />
 
-                        <input name="searchprice" id="searchprice" placeholder="Price Limit" autocomplete="off" />
-                        <br />
-                        <span name="priceerror" id="priceerror" class="text-danger"></span>
+                    <div class="col-1"></div>
 
-                        <div class="col-1"></div>
+                    <input name="searchprice" id="searchprice" placeholder="Price Limit" autocomplete="off" />
+                    <br />
+                    <span name="priceerror" id="priceerror" class="text-danger"></span>
 
-                        <select class="form-control custom-select col-3" id="currency">
-                            <option value="ILS" selected="selected">ILS</option>
-                            <option value="USD">USD</option>
-                            <option value="EUR">EUR</option>
-                        </select>
-                    </div>
+                    <div class="col-1"></div>
+
+                    <select class="form-control custom-select col-3" id="currency">
+                        <option value="ILS" selected="selected">ILS</option>
+                        <option value="USD">USD</option>
+                        <option value="EUR">EUR</option>
+                    </select>
                 </div>
-
-                <div class="row">
-                    <div class="input-group mb-3">
-
-                        <select class="form-control" multiple asp-items="@ViewBag.tags" name="tagsearch" id="tagsearch"></select>
-
-                        <div class="col-1"></div>
-
-                        <select class="form-control custom-select col-3" multiple asp-items="@ViewBag.pizzaSauces" name="saucesearch" id="saucesearch" style="width:200px"></select>
-
-                        <div class="col-1"></div>
-
-                        <select class="form-control" multiple asp-items="@ViewBag.toppings" name="toppingsearch" id="toppingsearch"></select>
-                    </div>
-                </div>
-
             </div>
-            <br />
 
-        </form>
-    </div>
+            <div class="row">
+                <div class="input-group mb-3">
+
+                    <select class="form-control" multiple asp-items="@ViewBag.tags" name="tagsearch" id="tagsearch"></select>
+
+                    <div class="col-1"></div>
+
+                    <select class="form-control custom-select col-3" multiple asp-items="@ViewBag.pizzaSauces" name="saucesearch" id="saucesearch" style="width:200px"></select>
+
+                    <div class="col-1"></div>
+
+                    <select class="form-control" multiple asp-items="@ViewBag.toppings" name="toppingsearch" id="toppingsearch"></select>
+                </div>
+            </div>
+
+        </div>
+    </form>
 </div>
+
+
 
 
 
@@ -75,17 +74,16 @@
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                     <b class="card-title">@Html.DisplayFor(modelItem => item.Price)</b>
                     <div class="card-subtitle mb-2 text-muted">
-                        <u>Tags</u>:  
-                        @for (int i = 0; i < item.Pizza_tags.Count; i++)
+                        @foreach (var tag in item.Pizza_tags)
                         {
-                            @Html.DisplayFor(m => item.Pizza_tags[i].Name);
-                            if (i == item.Pizza_tags.Count - 1)
-                                break;
-                            @: |
+                            <div class="col-4 badge badge-secondary" style="background-color:@tag.Color">
+                                <span name="Tags" value="@tag.Id" disabled></span>
+                                <label>@tag.Name</label><br>
+                            </div>
                         }
                     </div>
                     <div class="card-text">
-                        <u>Toppings</u>: 
+                        <u>Toppings</u>:
                         @for (int i = 0; i < item.Pizza_toppings.Count; i++)
                         {
                             @Html.DisplayFor(m => item.Pizza_toppings[i].Name);
@@ -121,8 +119,8 @@
     </div>
 </div>
 
-<div class="d-grid gap-2 col-6 mx-auto" >
-        <button class="btn btn-primary" type="button" onclick="MyOrder()" > My Order </button> // need to send the list as parameter 
+<div class="d-grid gap-2 col-6 mx-auto">
+    <button class="btn btn-primary" type="button" onclick="MyOrder()"> My Order </button> // need to send the list as parameter
 </div>
 
 
@@ -135,7 +133,6 @@
                         <h5 class="card-title">{name}</h5>
                         <b class="card-title">{price}</b>
                         <div class="card-subtitle mb-2 text-muted">
-                            <u>Tags</u>:
                             {pizza_tags}
                         </div>
                         <div class="card-text">

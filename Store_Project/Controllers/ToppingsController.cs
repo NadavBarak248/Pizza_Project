@@ -46,6 +46,24 @@ namespace Store_Project.Controllers
             return Json(await q.ToListAsync());
         }
 
+        // GET: Toppings/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var topping = await _context.Topping.Include(t => t.Toppings_pizza)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (topping == null)
+            {
+                return NotFound();
+            }
+
+            return View(topping);
+        }
+
 
         // GET: Toppings/Create
         public IActionResult Create()

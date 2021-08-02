@@ -10,12 +10,25 @@
             if (key == "pizza_image" && value != null) {
                 temp = temp.replace('{' + key + '}', value.image_content);
             }
-            else if ((key == "pizza_tags" || key == "pizza_toppings") && value.length > 0) {
+            else if (key == "pizza_toppings" && value.length > 0) {
+                var tops = ''
+                for (var i = 0; i < value.length; i++) {
+                    tops += value[i].name + ' | ';
+                }
+                tops = tops.substring(0, tops.length - 3);
+                temp = temp.replace('{' + key + '}', tops);
+            }
+            else if (key == "pizza_tags" && value.length > 0) {
+
+                var base = "<div class='col-4 badge badge-secondary' style='background-color:{tag_color}'><span name='Tags' value='{tag_id}' disabled></span><label>{tag_name}</label> <br></div> "
                 var tags = ''
                 for (var i = 0; i < value.length; i++) {
-                    tags += value[i].name + ' | ';
+                    var tagbase = base;
+                    tagbase = tagbase.replace('{tag_color}', value[i].color);
+                    tagbase = tagbase.replace('{tag_id}', value[i].id);
+                    tagbase = tagbase.replace('{tag_name}', value[i].name);
+                    tags += tagbase;
                 }
-                tags = tags.substring(0, tags.length - 3);
                 temp = temp.replace('{' + key + '}', tags);
             }
             else if (key == "with_cheese") {

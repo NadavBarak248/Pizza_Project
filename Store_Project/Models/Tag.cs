@@ -11,9 +11,14 @@ namespace Store_Project.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "you must input Tag name"), Display(Name = "Tag")]
+        [RegularExpression(@"^[a-zA-Z \-]+$", ErrorMessage = "Use letters only please")]
         public string Name { get; set; }
 
-        [Display(Name="Pizza tag")]
+        [DataType("Color"), Display(Name = "Tag Color")]
+        [Required(ErrorMessage = "you must input Tag color")]
+        public string Color { get; set; }
+
+        [Display(Name="Pizza Tags")]
         public List<Pizza> Pizza_tag { get; set; }
     }
 }

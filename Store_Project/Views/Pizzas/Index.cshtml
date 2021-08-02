@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Store_Project.Models.Pizza>
 
 @{ ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_PizzaIndexLayout.cshtml"; }
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
 
 <h1>Manager's Menu</h1>
 <a class="btn btn-secondary" asp-action="Create">Create New Pizza</a>
@@ -26,24 +26,25 @@
         <div class="card-body">
             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
             <h6 class="card-subtitle mb-2 text-muted price-shadow">@Html.DisplayFor(modelItem => item.Price)</h6>
-            <h6 class="card-subtitle mb-2 text-muted">
-                @for (int i = 0; i < item.Pizza_tags.Count; i++)
+            <div class="card-subtitle mb-2 text-muted">
+                @foreach (var tag in item.Pizza_tags)
                 {
-    @Html.DisplayFor(m => item.Pizza_tags[i].Name);
-    if (i == item.Pizza_tags.Count - 1)
-        break;
-    @: |
-}
-            </h6>
-            <h6 class="card-subtitle mb-2 text-muted">
+                    <div class="col-4 badge badge-secondary" style="background-color:@tag.Color">
+                        <span name="Tags" value="@tag.Id" disabled></span>
+                        <label>@tag.Name</label><br>
+                    </div>
+                }
+            </div>
+            <div class="card-text">
+                <u>Toppings</u>:
                 @for (int i = 0; i < item.Pizza_toppings.Count; i++)
                 {
-    @Html.DisplayFor(m => item.Pizza_toppings[i].Name);
-    if (i == item.Pizza_toppings.Count - 1)
-        break;
-    @: |
-}
-            </h6>
+                    @Html.DisplayFor(m => item.Pizza_toppings[i].Name);
+                    if (i == item.Pizza_toppings.Count - 1)
+                        break;
+                    @: |
+                }
+            </div>
             @Html.DisplayFor(modelItem => item.Pizza_sauce) sauce<br />
             @Html.DisplayFor(modelItem => item.Pizza_width) crust<br />
             @Html.DisplayFor(modelItem => item.Pizza_size) size<br />

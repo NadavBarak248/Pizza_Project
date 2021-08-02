@@ -1,0 +1,44 @@
+﻿@model Store_Project.Models.Tag
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Tag</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Color)
+        </dt>
+        <dd class="col-sm-10">
+            <input value="@Model.Color" type="color" disabled />
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pizza_tag)
+        </dt>
+        <dd class="col-sm-10">
+            @for (int i = 0; i < Model.Pizza_tag.Count; i++)
+            {
+                <a href="/Pizzas/Details/@Model.Pizza_tag[i].Id">@Model.Pizza_tag[i].Name</a>
+            }
+        </dd>
+    </dl>
+
+
+</div>
+<br />
+<div>
+    <a asp-action="Edit" class="btn btn-secondary" asp-route-id="@Model.Id">Edit</a>
+    <a type="button" class="btn btn-info" asp-action="Index">Back</a>
+</div>
+
+

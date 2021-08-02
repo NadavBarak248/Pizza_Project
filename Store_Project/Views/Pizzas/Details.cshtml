@@ -10,40 +10,65 @@
     <h4>Pizza</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        @if (Model.Pizza_image.Image_content != null)
+        {
+            string img = Convert.ToBase64String(Model.Pizza_image.Image_content);
+            <dd class="col-sm-4"><img class="card-img-top" alt="Card image cap" src="data:image/png;base64,@img"></dd><dd class="col-sm-8"></dd>
+        }
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pizza_tags)
+        </dt>
+        <dd class="col-sm-10">
+            @for (int i = 0; i < Model.Pizza_tags.Count; i++)
+            {
+                @Model.Pizza_tags[i].Name
+                @: 
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Pizza_toppings)
+        </dt>
+        <dd class="col-sm-10">
+            @for (int i = 0; i < Model.Pizza_toppings.Count; i++)
+            {
+                @Model.Pizza_toppings[i].Name 
+                @: 
+            }
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Price)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Price)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Pizza_size)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Pizza_size)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Pizza_width)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Pizza_width)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Pizza_sauce)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Pizza_sauce)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.With_cheese)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.With_cheese)
         </dd>
     </dl>

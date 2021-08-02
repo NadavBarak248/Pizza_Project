@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Store_Project</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/PizzaCard.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body dir="ltr">
@@ -25,10 +26,22 @@
                         @if (this.User.IsInRole("Admin"))
                         {
                             <li class="nav-pills btn-outline-danger">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Pizzas" asp-action="index">Manager Page</a>
+                                <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Pizzas" asp-action="index">Pizzas</a>
                             </li>
                             <li class="nav-pills btn-outline-danger">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="RegisterAdmin">Manager registration</a>
+                                <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Tags" asp-action="index">Tags</a>
+                            </li>
+                            <li class="nav-pills btn-outline-danger">
+                                <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Toppings" asp-action="index">Toppings</a>
+                            </li>
+                            <li class="nav-pills btn-outline-danger">
+                                <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Branches" asp-action="index">Branches</a>
+                            </li>
+                            <li class="nav-pills btn-outline-danger">
+                                <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Orders" asp-action="index">Orders</a>
+                            </li>
+                            <li class="nav-pills btn-outline-danger">
+                                <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Users" asp-action="RegisterAdmin">Manager registration</a>
                             </li>
                         }
                         @if (Context.User != null && Context.User.Claims != null && Context.User.Claims.Count() > 0)

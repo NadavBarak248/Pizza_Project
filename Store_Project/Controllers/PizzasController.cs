@@ -149,7 +149,7 @@ namespace Store_Project.Controllers
                 return NotFound();
             }
 
-            var pizza = await _context.Pizza
+            var pizza = await _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_toppings).Include(p => p.Pizza_image)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pizza == null)
             {

@@ -1,0 +1,44 @@
+﻿@model Store_Project.Models.Topping
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Topping</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Toppings_pizza)
+        </dt>
+        <dd class="col-sm-10">
+            @for (int i = 0; i < Model.Toppings_pizza.Count; i++)
+            {
+                <a href="/Pizzas/Details/@Model.Toppings_pizza[i].Id">@Model.Toppings_pizza[i].Name</a>
+            }
+        </dd>
+    </dl>
+
+
+</div>
+<br />
+<div>
+    <a asp-action="Edit" class="btn btn-secondary" asp-route-id="@Model.Id">Edit</a>
+    <a type="button" class="btn btn-info" asp-action="Index">Back</a>
+</div>
+
+

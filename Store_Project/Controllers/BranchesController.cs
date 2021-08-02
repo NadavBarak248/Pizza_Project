@@ -27,6 +27,17 @@ namespace Store_Project.Controllers
             return View(await _context.Branch.ToListAsync());
         }
 
+        public async Task<IActionResult> Search(string searchquery)
+        {
+            IOrderedQueryable<Branch> q = from b in _context.Branch
+                                       where
+                                       b.Branch_name.Contains(searchquery) || (searchquery == null)
+                                       orderby b.id ascending
+                                       select b;
+
+            return Json(await q.ToListAsync());
+        }
+
         // GET: Branches/Details/5
         public async Task<IActionResult> Details(int? id)
         {
