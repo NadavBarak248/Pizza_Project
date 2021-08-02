@@ -98,3 +98,30 @@ ul,li{
     border-style: solid;
     border-width: 2px;
 }
+
+aside {
+    width: 30%;
+    padding-left: 15px;
+    margin-left: 15px;
+    float: left;
+    font-style: italic;
+    background-color: lightgray;
+}
+
+.twitter_div{
+    column-count: 4;
+}
+
+@font-face {
+    font-family: welcomeFont;
+    src: url('webfont.eot');
+    src: url('webfont.eot?#iefix') format('embedded-opentype'), 
+    url('webfont.woff2') format('woff2'), 
+    url('webfont.woff') format('woff'), 
+    url('webfont.ttf') format('truetype'), 
+    url('webfont.svg#svgFontName') format('svg');
+}
+
+.welcome{
+    font-family: welcomeFont;
+}

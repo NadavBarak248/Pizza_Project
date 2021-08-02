@@ -25,7 +25,7 @@ namespace Store_Project.Controllers
 
         public IActionResult Index()
         {
-            WebRequest request = WebRequest.Create("https://api.twitter.com/2/users/1417505386249261065/tweets?max_results=5");
+            WebRequest request = WebRequest.Create("https://api.twitter.com/2/users/1417505386249261065/tweets?max_results=15");
             request.Headers.Add("Authorization", "Bearer AAAAAAAAAAAAAAAAAAAAADN2RwEAAAAA99APpYwtvppWfW2duHjt8Ttu4eo%3DWsyqvizl9TMvIhFM10BraeoEw5gIbctWF12DqMUFvkdsgv92pH");
             using (System.IO.Stream s = request.GetResponse().GetResponseStream())
             {
