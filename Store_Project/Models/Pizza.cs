@@ -41,7 +41,9 @@ namespace Store_Project.Models
         [Required(ErrorMessage = "you must input the Pizza name"), Display(Name = "Pizza Name")]
         [RegularExpression(@"^[a-zA-Z \-]+$", ErrorMessage = "Use letters only please")]
         public string Name { get; set; }
-       
+
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter valid double Number")]
+        [Required]
         [DataType(DataType.Currency)]
         public double Price { get; set; }
         // 20 + 10*size + slice*toppings
@@ -56,6 +58,7 @@ namespace Store_Project.Models
         public Crust Pizza_width { get; set; }
 
         [Display(Name ="Pizza Sauce")]
+        [Required(ErrorMessage = "you must select sauce")]
         public Sauce Pizza_sauce { get; set; }
 
         [Display(Name="with cheese")]

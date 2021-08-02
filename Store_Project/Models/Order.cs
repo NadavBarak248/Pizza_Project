@@ -18,8 +18,11 @@ namespace Store_Project.Models
         public User User_order { get; set; }
 
         [Display(Name = "Order Date")]
+        [Required]
         public DateTime Order_date { get; set; }
 
+        [Range(0, double.MaxValue, ErrorMessage = "Please enter valid double Number")]
+        [Required]
         public double Price { get; set; }
 
         public int BranchId { get; set; }
