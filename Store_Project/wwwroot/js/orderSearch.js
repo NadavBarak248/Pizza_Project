@@ -8,7 +8,7 @@
 
         $.each(val, function (key, value) {
             console.log(key)
-            if (key == "pizzaOrder" && value.length > 0) {
+            if (key == "pizzaOrder") {
                 var base = "<a href='\\Pizzas\\Details\\{id}'>{name}</a> ";
                 var pizzas = '';
                 for (var i = 0; i < value.length; i++) {
