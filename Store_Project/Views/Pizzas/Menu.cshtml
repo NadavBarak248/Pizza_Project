@@ -167,8 +167,14 @@
         var token = $('input[name="__RequestVerificationToken"]', form).val();
         $.ajax({
             type: 'post',
-            url: "/Pizzas/AddToOrder",
+            url: "/Orders/AddToOrder",
             dataType: 'JSON',
+            success: function () {
+
+            }
+            error: function () {
+                alert("there is a problem in the order process")
+            }
             data: {
                 __RequestVerificationToken: token,
                 pizzaIds: order

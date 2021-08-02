@@ -33,6 +33,13 @@ namespace Store_Project.Controllers
             return View(await q.ToListAsync());
         }
 
+
+        public IActionResult AddToOrder(List<int> pizzaIds)
+        {
+            return View("Orders/Details", pizzaIds);
+        }
+
+
         // GET: Orders/MyOrders
         public async Task<IActionResult> MyOrders()
         {
@@ -98,6 +105,7 @@ namespace Store_Project.Controllers
             }
             return View(result);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

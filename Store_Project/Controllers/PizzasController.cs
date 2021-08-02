@@ -237,10 +237,6 @@ namespace Store_Project.Controllers
             return View(pizza);
         }
 
-        public IActionResult AddToOrder(List<int> pizzaIds)
-        {
-            return View("Orders/Details", pizzaIds);
-        }
 
         // POST: Pizzas/Ezdit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
