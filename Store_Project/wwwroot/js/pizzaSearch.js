@@ -10,6 +10,9 @@
             if (key == "pizza_image" && value != null) {
                 temp = temp.replace('{' + key + '}', value.image_content);
             }
+            else if (key == "pizza_width") {
+                temp = temp.replace('{' + key + '}', value.replace("_", " "));
+            }
             else if (key == "pizza_toppings" && value.length > 0) {
                 var tops = ''
                 for (var i = 0; i < value.length; i++) {

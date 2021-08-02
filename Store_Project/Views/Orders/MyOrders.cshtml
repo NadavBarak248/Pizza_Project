@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Store_Project.Models.Order>
+
+@{
+    ViewData["Title"] = "MyOrders";
+}
+
+<h1>My Orders</h1>
+
+
+<table class="table table-striped" id="maintbl">
+    <thead class="table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Order_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User_order.Username)
+            </th>
+            <th>
+                Pizzas
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Branch.Branch_name)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody id="allorders">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Order_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User_order.Username)
+                </td>
+                <td>
+                    @for (int i = 0; i < item.PizzaOrder.Count; i++)
+                    {
+                        <a href="\Pizzas\Details\@item.PizzaOrder[i].PizzaId">@item.PizzaOrder[i].Pizzas.Name</a>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Branch.Branch_name)
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

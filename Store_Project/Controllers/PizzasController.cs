@@ -42,9 +42,9 @@ namespace Store_Project.Controllers
             select new
             {
                 ID = (int)w,
-                Name = w.ToString()
+                Name = w.ToString().Replace("_", " ")
             };
-
+            
             var sauceEnum = from Sauce sa in Enum.GetValues(typeof(Sauce))
             select new
             {
@@ -160,6 +160,7 @@ namespace Store_Project.Controllers
         }
 
         // GET: Pizzas/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             BuildEmptyFieldsViewData();
@@ -171,6 +172,7 @@ namespace Store_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,Pizza_size,Slices_number,Pizza_width,Pizza_sauce,With_cheese, To_present")] Pizza pizza,
             int[] Pizza_tags, int[] Pizza_toppings, IFormFile ImageFile)
         {
@@ -212,6 +214,7 @@ namespace Store_Project.Controllers
         }
 
         // GET: Pizzas/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -244,6 +247,7 @@ namespace Store_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Pizza_size,Slices_number,Pizza_width,Pizza_sauce,With_cheese, To_present")] Pizza pizza, int[] Pizza_tags, int[] Pizza_toppings, IFormFile ImageFile)
         {
             if (id != pizza.Id)
@@ -314,9 +318,10 @@ namespace Store_Project.Controllers
             return View(pizza);
         }
 
-        
+
 
         // Get: Pizzas/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var pizza = await _context.Pizza.FindAsync(id);
@@ -325,6 +330,7 @@ namespace Store_Project.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         private bool PizzaExists(int id)
         {
             return _context.Pizza.Any(e => e.Id == id);

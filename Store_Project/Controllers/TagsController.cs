@@ -11,6 +11,7 @@ using Store_Project.Models;
 
 namespace Store_Project.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class TagsController : Controller
     {
         private readonly Store_ProjectContext _context;
@@ -27,7 +28,6 @@ namespace Store_Project.Controllers
         }
 
         // GET: Tags
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             IOrderedQueryable<Tag> q = from t in _context.Tag.Include(t => t.Pizza_tag)
@@ -37,6 +37,7 @@ namespace Store_Project.Controllers
         }
 
         // GET: Tags/Search
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Search(string searchquery)
         {
             IOrderedQueryable<Tag> q = from t in _context.Tag.Include(t => t.Pizza_tag)
@@ -67,7 +68,6 @@ namespace Store_Project.Controllers
         }
 
         // GET: Tags/Create
-        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             SetPizzaListItemsAsync();

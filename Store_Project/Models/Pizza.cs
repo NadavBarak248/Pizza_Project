@@ -14,8 +14,7 @@ namespace Store_Project.Models
         Small,
         Medium,
         Large,
-        [Display(Name ="Extra Large")]
-        Extra_Large
+        XL
     }
 
     [JsonConverter(typeof(StringEnumConverter))]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ namespace Store_Project.Controllers
         }
 
         // GET: Orders
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             IOrderedQueryable<Order> q = from o in _context.Order.Include(o => o.User_order).Include(o => o.Branch).Include(o => o.PizzaOrder).ThenInclude(p => p.Pizzas)
@@ -31,7 +33,20 @@ namespace Store_Project.Controllers
             return View(await q.ToListAsync());
         }
 
+        // GET: Orders/MyOrders
+        public async Task<IActionResult> MyOrders()
+        {
+            string current_user = this.User.Identity.Name;
+            IOrderedQueryable<Order> q = from o in _context.Order.Include(o => o.User_order).Include(o => o.Branch).Include(o => o.PizzaOrder).ThenInclude(p => p.Pizzas)
+                                         where o.User_order.Username == current_user
+                                         orderby o.Id ascending
+                                         select o;
+
+            return View(await q.ToListAsync());
+        }
+
         // GET: UsersOrders
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UsersOrders()
         {
             var q = from o in _context.Order.Include(o => o.User_order)
@@ -57,6 +72,7 @@ namespace Store_Project.Controllers
         }
 
         // GET: BranchesOrders
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> BranchesOrders()
         {
             var q = from o in _context.Order.Include(o => o.Branch)
@@ -83,6 +99,7 @@ namespace Store_Project.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Search(string user, string branch, double pricelimit, DateTime endingdate)
         {
            
@@ -107,6 +124,8 @@ namespace Store_Project.Controllers
                 return NotFound();
             }
 
+            
+
             var q = from o in _context.Order.Include(o => o.PizzaOrder).ThenInclude(p => p.Pizzas)
                     join b in _context.Branch
                     on o.BranchId equals b.id
@@ -123,6 +142,12 @@ namespace Store_Project.Controllers
                         Pizzas = o.PizzaOrder
                     };
             var order = await q.FirstOrDefaultAsync(m => m.Id == id);
+
+            string current_user = this.User.Identity.Name;
+            if (!order.Username.Equals(current_user) && !this.User.IsInRole("Admin"))
+            {
+                return NotFound();
+            }
             ViewBag.OrderDate = order.OrderDate;
             ViewBag.Price = order.Price;
             ViewBag.Id = order.Id;
@@ -161,6 +186,7 @@ namespace Store_Project.Controllers
         }
 
         // GET: Orders/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -181,6 +207,7 @@ namespace Store_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Order_date,Price")] Order order)
         {
             if (id != order.Id)
@@ -212,29 +239,16 @@ namespace Store_Project.Controllers
         }
 
         // GET: Orders/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
+            var order = await _context.Order.Include(o => o.User_order).FirstOrDefaultAsync(o => o.Id == id);
+            string current_user = this.User.Identity.Name;
+            if (!order.User_order.Username.Equals(current_user) || !this.User.IsInRole("Admin"))
             {
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
-        }
-
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var order = await _context.Order.FindAsync(id);
             _context.Order.Remove(order);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
