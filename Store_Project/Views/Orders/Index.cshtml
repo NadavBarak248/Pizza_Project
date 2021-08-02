@@ -30,7 +30,7 @@
                     <div class="col-1"></div>
 
                     <input name="searchbranch" id="searchbranch" placeholder="Branch name" autocomplete="off" />
-                    
+
                     <div class="col-1"></div>
 
                     <input type="date" id="orderdate" value="@string.Format("{0:yyyy-MM-dd}", DateTime.Now)" />
@@ -43,13 +43,8 @@
 
 
 
-<table class="table table-striped">
+<table class="table table-striped" id="maintbl">
     <thead class="table-dark">
-        <tr>
-            <th colspan="6" align="center">
-                All Orders
-            </th>
-        </tr>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Order_date)
@@ -100,32 +95,42 @@
     </tbody>
 </table>
 
+<a type="button" class="btn btn-info" asp-action="UsersOrders">Orders by Users</a>
+<span></span>
+<a type="button" class="btn btn-info" asp-action="BranchesOrders">Orders by Branches</a>
+
 
 <script type="text/x-custom-html" id="tableSearchTemplate">
-             <tr>
-                <td>
-                    {order_date}
-                </td>
-                <td>
-                    {user_order}
-                </td>
-                <td>
-                    {pizzas}
-                </td>
-                <td>
-                    {price}
-                </td>
-                <td>
-                    {branch}
-                </td>
-                <td>
-                    <a class="btn btn-warning" href="\Orders\Details\{id}">Details</a>
-                </td>
-            </tr>
+     <tr>
+        <td>
+            {order_date}
+        </td>
+        <td>
+            {user_order}
+        </td>
+        <td>
+            {pizzas}
+        </td>
+        <td>
+            {price}
+        </td>
+        <td>
+            {branch}
+        </td>
+        <td>
+            <a class="btn btn-warning" href="\Orders\Details\{id}">Details</a>
+        </td>
+    </tr>
 
 </script>
+
+
 
 
 @section Scripts{
     <script src="~/js/orderSearch.js"></script>
 }
+
+
+
+

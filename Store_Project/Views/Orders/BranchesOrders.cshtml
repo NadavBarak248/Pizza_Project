@@ -1,0 +1,47 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "BranchesOrders";
+}
+
+<h1>BranchesOrders</h1>
+
+
+<table class="table table-striped col-sm-6" id="maintbl">
+    <thead>
+        <tr>
+            <th>
+                Branch
+            </th>
+            <th>
+                Count
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < ViewBag.branches.Count; i++)
+        {
+            <tr>
+                <td>
+                    @ViewBag.branches[i]
+                </td>
+                <td>
+                    @ViewBag.counts[i]
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<center><div id="BranchesGraph" class="text-center col-sm-6"></div></center>
+
+<a type="button" class="btn btn-info" asp-action="Index">All Orders</a>
+<span></span>
+<a type="button" class="btn btn-info" asp-action="UsersOrders">Orders by Users</a>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () { createGraphInput('maintbl', 0, 1, "#BranchesGraph") })
+    </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+}

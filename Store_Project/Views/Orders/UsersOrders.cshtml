@@ -1,0 +1,47 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "UsersOrders";
+}
+
+<h1>UsersOrders</h1>
+
+
+<table class="table table-striped col-sm-6" id="maintbl">
+    <thead>
+        <tr>
+            <th>
+                Username
+            </th>
+            <th>
+                Count
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < ViewBag.users.Count; i++)
+        {
+            <tr>
+                <td>
+                    @ViewBag.users[i]
+                </td>
+                <td>
+                    @ViewBag.counts[i]
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<center><div id="UsersGraph" class="text-center col-sm-6"></div></center>
+
+<a type="button" class="btn btn-info" asp-action="Index">All Orders</a>
+<span></span>
+<a type="button" class="btn btn-info" asp-action="BranchesOrders">Orders by Branches</a>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () { createGraphInput('maintbl', 0, 1, "#UsersGraph") })
+    </script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+}

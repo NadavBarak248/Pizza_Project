@@ -31,6 +31,56 @@ namespace Store_Project.Controllers
             return View(await q.ToListAsync());
         }
 
+        // GET: UsersOrders
+        public async Task<IActionResult> UsersOrders()
+        {
+            var q = from o in _context.Order.Include(o => o.User_order)
+                    group o by o.User_order.Username into g
+                    orderby g.Count() descending
+
+                    select new
+                    {
+                        Username = g.Key,
+                        Orders = g.Count()
+                    };
+
+            var result = await q.ToListAsync();
+
+            ViewBag.users = new List<string>();
+            ViewBag.counts = new List<int>();
+            for (int i = 0; i < result.Count; i++)
+            {
+                ViewBag.users.Add(result[i].Username);
+                ViewBag.counts.Add(result[i].Orders);
+            }
+            return View(result);
+        }
+
+        // GET: BranchesOrders
+        public async Task<IActionResult> BranchesOrders()
+        {
+            var q = from o in _context.Order.Include(o => o.Branch)
+                    group o by o.Branch.Branch_name into g
+                    orderby g.Count() descending
+
+                    select new
+                    {
+                        Branchname = g.Key,
+                        Orders = g.Count()
+                    };
+
+            var result = await q.ToListAsync();
+
+            ViewBag.branches = new List<string>();
+            ViewBag.counts = new List<int>();
+            for (int i = 0; i < result.Count; i++)
+            {
+                ViewBag.branches.Add(result[i].Branchname);
+                ViewBag.counts.Add(result[i].Orders);
+            }
+            return View(result);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Search(string user, string branch, double pricelimit, DateTime endingdate)
