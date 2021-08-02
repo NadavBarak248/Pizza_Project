@@ -75,7 +75,9 @@ namespace Store_Project.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> BranchesOrders()
         {
-            var q = from o in _context.Order.Include(o => o.Branch)
+            var q = from o in _context.Order
+                    join b in _context.Branch
+                    on o.BranchId equals b.id
                     group o by o.Branch.Branch_name into g
                     orderby g.Count() descending
 

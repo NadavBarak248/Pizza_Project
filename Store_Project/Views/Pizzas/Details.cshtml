@@ -74,5 +74,9 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Menu">Back to Menu</a>
+    @if (this.User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" class="btn btn-secondary" asp-route-id="@Model.Id">Edit</a>
+    }
+    <a type="button" class="btn btn-info" asp-action="Menu">Back to Menu</a>
 </div>
