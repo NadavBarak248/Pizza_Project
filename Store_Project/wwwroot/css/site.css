@@ -91,6 +91,7 @@ body {
 table{
     vertical-align: central;
     text-align: left;
+    background-color: ghostwhite;
 }
 
 main {
@@ -196,5 +197,9 @@ a {
     padding: 10px 12px 8px;
     position: absolute;
     bottom: -36px;
+}
+
+.side-by-side{
+    display:flex;
 }
 
