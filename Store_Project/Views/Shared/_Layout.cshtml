@@ -7,7 +7,9 @@
     <title>@ViewData["Title"] - Store_Project</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/PizzaCard.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- <link rel="stylesheet" href="~/css/site.css" /> -->
+    <link href='~/css/site.css?version=1' rel='stylesheet'/>
+
 </head>
 <body dir="ltr">
     <header>
@@ -26,7 +28,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-pills btn-outline-danger">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Pizzas" asp-action="Menu">Menu</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Pizzas" asp-action="Menu">Menu</a>
                         </li>
 
 
@@ -35,22 +37,22 @@
                             @if (this.User.IsInRole("Admin"))
                             {
                                 <li class="nav-pills btn-outline-danger">
-                                    <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Pizzas" asp-action="index">Pizzas</a>
+                                    <a class="nav-link text-light admin_menu" asp-area="" asp-controller="Pizzas" asp-action="index">Pizzas</a>
                                 </li>
                                 <li class="nav-pills btn-outline-danger">
-                                    <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Tags" asp-action="index">Tags</a>
+                                    <a class="nav-link text-light admin_menu" asp-area="" asp-controller="Tags" asp-action="index">Tags</a>
                                 </li>
                                 <li class="nav-pills btn-outline-danger">
-                                    <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Toppings" asp-action="index">Toppings</a>
+                                    <a class="nav-link text-light admin_menu" asp-area="" asp-controller="Toppings" asp-action="index">Toppings</a>
                                 </li>
                                 <li class="nav-pills btn-outline-danger">
-                                    <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Branches" asp-action="index">Branches</a>
+                                    <a class="nav-link text-light admin_menu" asp-area="" asp-controller="Branches" asp-action="index">Branches</a>
                                 </li>
                                 <li class="nav-pills btn-outline-danger">
-                                    <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Orders" asp-action="index">Orders</a>
+                                    <a class="nav-link text-light admin_menu" asp-area="" asp-controller="Orders" asp-action="index">Orders</a>
                                 </li>
                                 <li class="nav-pills btn-outline-danger">
-                                    <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Users" asp-action="RegisterAdmin">Manager registration</a>
+                                    <a class="nav-link text-light admin_menu" asp-area="" asp-controller="Users" asp-action="RegisterAdmin">Manager registration</a>
                                 </li>
                             }
 
@@ -58,21 +60,21 @@
                             else
                             {
                                 <li class="nav-pills btn-outline-danger">
-                                    <a class="nav-link text-dark admin_menu" asp-area="" asp-controller="Orders" asp-action="MyOrders">Past Orders</a>
+                                    <a class="nav-link text-light admin_menu" asp-area="" asp-controller="Orders" asp-action="MyOrders">Past Orders</a>
                                 </li>
                             }
 
                             <li class="nav-pills btn-outline-danger">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
                             </li>
                             <li class="nav-item mr-auto">
-                                <div class="nav-link text-dark connected_as"> You are connected as: <b>@Context.User.Identities.FirstOrDefault().Name</b></div>
+                                <div class="nav-link text-light connected_as"> You are connected as: <b>@Context.User.Identities.FirstOrDefault().Name</b></div>
                             </li>
                         }
                         else
                         {
                             <li class="nav-pills btn-outline-danger">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
                             </li>
                         }
                     </ul>
@@ -84,7 +86,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bag" viewBox="0 0 16 16">
                             <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z" />
                         </svg>
-                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">My Order</a>
+                        <a class="nav-link text-light" asp-area="" asp-controller="" asp-action="">My Order</a>
                     }
                 }
             </div>

@@ -7,6 +7,10 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.bg-light {
+    background-color: #942b2f !important;
+}
+
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
@@ -19,9 +23,10 @@ a {
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #dad9d5;
+    /*#1b6ec2;*/
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
@@ -60,10 +65,17 @@ html {
 }
 
 body {
-    background-image: url("..\pictures\PizzaBackground.jpg");
+    background-image: url("/pictures/background.jpg");
     background-size: cover;
-    /* Margin bottom by footer height */ 
     margin-bottom: 60px;
+    /*
+
+    color: #000;
+    overflow-x: hidden;
+    height: 100%;
+    background-image: linear-gradient(to right, #D500F9, #FFD54F);
+    background-repeat: no-repeat
+        */
 }
 
 
