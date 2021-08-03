@@ -221,7 +221,15 @@ namespace Store_Project.Controllers
                     if (!_context.Pizza.Any(e => e.Id == pizzas[i]))
                         return NotFound();
 
+                    
                     PizzasInOrder po = new PizzasInOrder();
+                    po.Pizzas = _context.Pizza.Find(pizzas[i]);
+
+                    // pizza not in display mode
+                    if (!po.Pizzas.To_present)
+                        return NotFound();
+
+                    
                    
                     po.PizzaId = pizzas[i];
                     po.Pizzas = _context.Pizza.Find(pizzas[i]);
