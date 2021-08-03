@@ -13,7 +13,12 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/Pictures/MonAmour.jpg" class="logo" width="50" /> Mon Amour Pizza</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    @*<img src="~/Pictures/MonAmour.jpg" class="logo" width="50" />*@
+                    <canvas id="logoCanvas" height="50" width="90"> your browser does not support the HTML canvas tag.</canvas>
+                    <br />
+                    <b class="active price-shadow">Mon Amour Pizza</b>
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -91,6 +96,7 @@
         </main>
     </div>
 
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - Mon Amour Pizza
@@ -103,9 +109,9 @@
     <script src="~/lib/forModal/popper.min.js"></script>
     <script src="~/lib/forModal/bootstrap.min.js"></script>
 
-
+    <script src="~/js/Canvas.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    
+
 </body>
 </html>

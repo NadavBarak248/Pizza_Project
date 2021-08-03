@@ -90,7 +90,7 @@
                 </a>
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                    <b class="card-title">@Html.DisplayFor(modelItem => item.Price)</b>
+                    <b class="card-title price-shadow">@Html.DisplayFor(modelItem => item.Price)</b>
                     <div class="card-subtitle mb-2 text-muted">
                         @foreach (var tag in item.Pizza_tags)
                         {

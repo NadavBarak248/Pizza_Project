@@ -46,9 +46,11 @@
     </div>
 </div>
 
-<div>
-    Not Registered? <a asp-action="Register">Click here</a> to register
-</div>
+<aside>
+    <div>
+        Not Registered? <a asp-action="Register">Click here</a> to register
+    </div>
+</aside>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

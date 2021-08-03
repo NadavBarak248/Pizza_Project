@@ -102,3 +102,24 @@ ul,li{
     border-width: 2px;
 }
 
+aside {
+    width: 30%;
+    padding-left: 15px;
+    margin-left: 15px;
+    float: left;
+    font-style: italic;
+    background-color: lightgray;
+}
+
+.twitter_div{
+    column-count: 4;
+}
+
+@font-face {
+    font-family: welcomeFont;
+    src: url('webfont.eot');
+}
+
+.welcome{
+    font-family: welcomeFont;
+}

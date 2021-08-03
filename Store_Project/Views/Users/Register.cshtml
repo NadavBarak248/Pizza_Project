@@ -35,6 +35,7 @@
             <div class="row justify-content-center my-3 px-3">
                 <input type="submit" value="Register" class="btn btn-outline-danger" />
             </div>
+
         </form>
         @if (ViewBag.Error != null)
         {
@@ -44,9 +45,11 @@
     </div>
 </div>
 
-<div>
-    Already registered? <a asp-action="Login">Click here</a> to login
-</div>
+<aside>
+    <div>
+        Already registered? <a asp-action="Login">Click here</a> to login
+    </div>
+</aside>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
