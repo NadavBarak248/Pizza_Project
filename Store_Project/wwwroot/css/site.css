@@ -214,16 +214,11 @@ a {
     height: 100%
 }
 .carousel {
-    width: 640px;
-    height: 460px;
+    width: 540px;
+    height: 360px;
 }
 
 .w-100 {
     width: 100% !important;
     height: 75vh;
-}
-.carousel-inner > .item > img,
-.carousel-inner > .item > a > img {
-    width: 70%;
-    margin: auto;
 }
