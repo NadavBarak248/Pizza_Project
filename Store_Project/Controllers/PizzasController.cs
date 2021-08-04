@@ -94,6 +94,7 @@ namespace Store_Project.Controllers
         {
             //await Tweeter();
             BuildEmptyFieldsViewData();
+            ViewBag.Branches = new SelectList(_context.Branch, nameof(Branch.id), nameof(Branch.Branch_name));
             IOrderedQueryable<Pizza> q = from p in _context.Pizza.Include(p => p.Pizza_tags).Include(p => p.Pizza_toppings).Include(p => p.Pizza_image)
                                          where
                                          (p.To_present == true)

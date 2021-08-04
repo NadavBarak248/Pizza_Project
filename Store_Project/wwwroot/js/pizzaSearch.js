@@ -1,5 +1,5 @@
 ﻿function update_page(page_data, currency) {
-    $('#cards-pizza').html('');
+    $('#toClean').html('');
 
     var template = $('#tableSearchTemplate').html();
 
@@ -62,7 +62,7 @@
             }
         });
 
-        $('#cards-pizza').append(temp);
+        $('#toClean').append(temp);
     });
 }
 

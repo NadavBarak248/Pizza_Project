@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -32,13 +33,6 @@ namespace Store_Project.Controllers
 
             return View(await q.ToListAsync());
         }
-
-
-        public IActionResult AddToOrder(List<int> pizzaIds)
-        {
-            return View("Orders/Details", pizzaIds);
-        }
-
 
         // GET: Orders/MyOrders
         public async Task<IActionResult> MyOrders()
@@ -173,26 +167,87 @@ namespace Store_Project.Controllers
             return View(order);
         }
 
-        // GET: Orders/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
 
         // POST: Orders/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Order_date,Price")] Order order)
+        public async Task<IActionResult> Create(List<int> pizzaIds, int branchid)
         {
+
             if (ModelState.IsValid)
             {
+                // branch not found
+                if (!_context.Branch.Any(e => e.id == branchid))
+                    return NotFound();
+
+                // no pizzas in order
+                if (pizzaIds.Count == 0)
+                    return NotFound();
+
+
+                // building order
+                Order order = new Order();
+
+                order.User_order = _context.User.FirstOrDefault(u => u.Username.Equals(this.User.Identity.Name));
+                order.Order_date = DateTime.Now;
+                order.BranchId = branchid;
+                order.Branch = _context.Branch.Find(branchid);
+                order.Price = 0;
+
+                // count instances of pizzas
+                List<int> pizzas = new List<int>();
+                List<int> instances = new List<int>();
+                for (int i = 0; i < pizzaIds.Count; i++)
+                {
+                    if (!pizzas.Exists(pid => pid == pizzaIds[i]))
+                    {
+                        pizzas.Add(pizzaIds[i]);
+                        instances.Add(1);
+                    }
+                    else
+                    {
+                        int instances_id = pizzas.IndexOf(pizzaIds[i]);
+                        instances[instances_id] += 1;
+                    }
+                }
+
+                // creating pizzas in order
+                List<PizzasInOrder> pizzasOrder = new List<PizzasInOrder>();
+                for (int i = 0; i < pizzas.Count; i++)
+                {
+                    // pizza not found in DB
+                    if (!_context.Pizza.Any(e => e.Id == pizzas[i]))
+                        return NotFound();
+
+                    
+                    PizzasInOrder po = new PizzasInOrder();
+                    po.Pizzas = _context.Pizza.Find(pizzas[i]);
+
+                    // pizza not in display mode
+                    if (!po.Pizzas.To_present)
+                        return NotFound();
+
+                    
+                   
+                    po.PizzaId = pizzas[i];
+                    po.Pizzas = _context.Pizza.Find(pizzas[i]);
+                    po.Orders = order;
+                    po.Quantity = instances[i];
+                    pizzasOrder.Add(po);
+
+                    order.Price += po.Pizzas.Price * instances[i];
+                }
+                order.PizzaOrder = pizzasOrder;
+
+
                 _context.Add(order);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                
             }
-            return View(order);
+
+            return Json(new { redirectToUrl = Url.Action("MyOrders", "Orders") });
         }
 
         // GET: Orders/Edit/5
@@ -204,11 +259,13 @@ namespace Store_Project.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order.FindAsync(id);
+            var order = await _context.Order.Include(o => o.User_order).Include(o => o.Branch).FirstOrDefaultAsync(e => e.Id == id);
             if (order == null)
             {
                 return NotFound();
             }
+            ViewBag.users = new SelectList(_context.User, "Id", "Username", order.UserId);
+            ViewBag.branches = new SelectList(_context.Branch, nameof(Branch.id), nameof(Branch.Branch_name), order.BranchId);
             return View(order);
         }
 
@@ -218,47 +275,43 @@ namespace Store_Project.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Order_date,Price")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Order_date,Price")] Order order, int User_order, int Branch)
         {
             if (id != order.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            order.UserId = User_order;
+            order.User_order = _context.User.Find(User_order);
+            order.BranchId = Branch;
+            order.Branch = _context.Branch.Find(Branch);
+
+            try
             {
-                try
-                {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(order);
+                await _context.SaveChangesAsync();
             }
-            return View(order);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OrderExists(order.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
         }
 
         // GET: Orders/Delete/5
-        
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var order = await _context.Order.Include(o => o.User_order).FirstOrDefaultAsync(o => o.Id == id);
-            string current_user = this.User.Identity.Name;
-            if (!order.User_order.Username.Equals(current_user) || !this.User.IsInRole("Admin"))
-            {
-                return NotFound();
-            }
-
             _context.Order.Remove(order);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

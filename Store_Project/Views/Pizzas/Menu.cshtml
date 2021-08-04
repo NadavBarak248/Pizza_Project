@@ -99,8 +99,8 @@
                         <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,@img">}
                 </a>
                 <div class="card-body">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                    <b class="card-title price-shadow">@Html.DisplayFor(modelItem => item.Price)</b>
+                    <h5 class="card-title" id="name_@item.Id">@Html.DisplayFor(modelItem => item.Name)</h5>
+                    <b class="card-title price-shadow" id="price_@item.Id">@Html.DisplayFor(modelItem => item.Price)</b>
                     <div class="card-subtitle mb-2 text-muted">
                         @foreach (var tag in item.Pizza_tags)
                         {
@@ -155,8 +155,8 @@
             <img class="card-img-top" alt="Card image cap" src="data:image/png;base64,{pizza_image}">
         </a>
                     <div class="card-body">
-                        <h5 class="card-title">{name}</h5>
-                        <b class="card-title">{price}</b>
+                        <h5 class="card-title" id="name_{id}">{name}</h5>
+                        <b class="card-title" id="price_{id}">{price}</b>
                         <div class="card-subtitle mb-2 text-muted">
                             {pizza_tags}
                         </div>
@@ -178,36 +178,58 @@
                         </button>
                     </div>
     </div>
+    <br /><br />
 
 </script>
 
-<script>
-    var order = [];
-    function AddPizza(id) {
-        order.push(id);
-        console.log(order);
-    }
-    function MyOrder() {
-        var form = $('#__AjaxAntiForgeryForm');
-        var token = $('input[name="__RequestVerificationToken"]', form).val();
-        $.ajax({
-            type: 'post',
-            url: "/Orders/AddToOrder",
-            dataType: 'JSON',
-            success: function () {
+<br />
+<br />
+<div class="side-by-side">
+    <div class="col-sm-5">
+        <b class="text-black-50">Select Branch</b>
+        <select class="form-control" asp-items="@ViewBag.Branches" name="selectedBranch" id="selectedBranch">
+        </select>
+    </div>
 
-            }
-            error: function () {
-                alert("there is a problem in the order process")
-            }
-            data: {
-                __RequestVerificationToken: token,
-                pizzaIds: order
-            }
-        });
-    }
-</script>
+    <div class="col-sm-2"></div>
+
+    <div class="col-sm-5">
+        <b class="text-black-50">My Order</b>
+        <table id="myOrder" class="col-sm-5"></table>
+        
+    </div>
+
+</div>
+<br />
+<br />
+<center>
+    <input type="button" id="orderready" value="Send Order" class="btn btn-primary" data-toggle="modal" data-target="#OrderConfirm">
+    <span id="orderError" class="text-danger"></span>
+
+    <!-- Modal -->
+    <div class="modal fade" id="OrderConfirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to order this pizzas?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-primary"  onclick="MyOrder()" value="Send Order"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</center>
+
 
 @section Scripts{
     <script src="~/js/pizzaSearch.js"></script>
+    <script src="~/js/pizzaOrder.js"></script>
 }
