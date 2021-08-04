@@ -1,45 +1,63 @@
 ﻿@model IEnumerable<Store_Project.Models.User>
 
-@{
-    ViewData["Title"] = "Users";
-}
+@{ ViewData["Title"] = "Users"; }
 
 <h1>Users</h1>
 
-<table class="table">
-    <thead>
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th colspan="3">
+                <input name="searchquery" id="searchQuery" placeholder="Search User..." autocomplete="off" />
+            </th>
+        </tr>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Username)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Password)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Type)
             </th>
-            <th></th>
+            <th>
+                <a class="btn btn-secondary" asp-action="RegisterAdmin">Manager registration</a>
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Username)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Type)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Username)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Type)
+    </td>
+    <td>
+        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+    </td>
+</tr>}
     </tbody>
 </table>
+
+<script type="text/x-custom-html" id="tableSearchTemplate">
+
+    <tr>
+        <td>
+            {username}
+        </td>
+        <td>
+            {type}
+        </td>
+        <td>
+            <a class="btn btn-warning" href="/Users/Edit/{id}">Edit</a>
+        </td>
+    </tr>
+
+
+</script>
+
+
+@section Scripts{
+    <script src="~/js/userSearch.js"></script>
+}
