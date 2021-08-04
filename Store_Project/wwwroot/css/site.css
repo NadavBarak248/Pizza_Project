@@ -67,7 +67,7 @@ html {
 
 body {
     background-image: url("/pictures/background.jpg");
-    background-size: cover;
+    /*background-size: cover;*/
     margin-bottom: 60px;
     /*
 
@@ -92,7 +92,7 @@ body {
 table{
     vertical-align: central;
     text-align: left;
-    background-color: ghostwhite;
+    /*background-color: ghostwhite;*/
 }
 
 main {
@@ -204,12 +204,26 @@ a {
     display:flex;
 }
 
+
+.center-block {
+    float: none
+}
+
+.carousel img {
+    width: 100%;
+    height: 100%
+}
 .carousel {
     width: 640px;
-    height: 360px;
+    height: 460px;
 }
 
 .w-100 {
     width: 100% !important;
     height: 75vh;
+}
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 70%;
+    margin: auto;
 }
