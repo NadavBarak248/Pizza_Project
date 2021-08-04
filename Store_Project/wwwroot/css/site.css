@@ -199,3 +199,12 @@ a {
     bottom: -36px;
 }
 
+.carousel {
+    width: 640px;
+    height: 360px;
+}
+
+.w-100 {
+    width: 100% !important;
+    height: 75vh;
+}
