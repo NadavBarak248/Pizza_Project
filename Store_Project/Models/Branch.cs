@@ -11,7 +11,7 @@ namespace Store_Project.Models
         public int id { get; set; }
 
         [Required(ErrorMessage = "you must input the branch name"), Display(Name = "Branch Name")]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Use letters only please")]
+        [RegularExpression(@"^[a-zA-Z \-]+$", ErrorMessage = "Use letters only please")]
         public string Branch_name { get; set; }
 
         [Required(ErrorMessage = "you must input the branch location"), Display(Name = "Branch Location")]

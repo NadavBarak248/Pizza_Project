@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Store_Project.Models
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum User_type
     {
         Admin,
