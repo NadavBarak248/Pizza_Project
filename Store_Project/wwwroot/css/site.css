@@ -69,14 +69,7 @@ body {
     background-image: url("/pictures/background.jpg");
     /*background-size: cover;*/
     margin-bottom: 60px;
-    /*
 
-    color: #000;
-    overflow-x: hidden;
-    height: 100%;
-    background-image: linear-gradient(to right, #D500F9, #FFD54F);
-    background-repeat: no-repeat
-        */
 }
 
 
@@ -94,9 +87,8 @@ table{
     text-align: left;
     /*background-color: ghostwhite;*/
 }
-
-main {
-    text-align: left;
+.table > tbody {
+    background-color: #f8f9fa;
 }
 
 
@@ -204,9 +196,9 @@ a {
     display:flex;
 }
 
-
 .center-block {
-    float: none
+    float: none ;
+    margin-left: 25%;
 }
 
 .carousel img {
@@ -222,3 +214,4 @@ a {
     width: 100% !important;
     height: 75vh;
 }
+
