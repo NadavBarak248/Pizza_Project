@@ -22,7 +22,8 @@
                 </span>
                 <!---  <label asp-for="Username" class="control-label form_text_font"></label>   -->
                 <input asp-for="Username" class="form-control form-control-light login_input" placeholder="User Name" aria-label="Username" />
-                <span asp-validation-for="Username"></span>
+                <br />
+                <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text">
@@ -32,7 +33,8 @@
                 </span>
                 <!---  <label asp-for="Password" class="control-label"></label> -->
                 <input asp-for="Password" type="password" class="form-control" placeholder="Password" aria-label="Password" />
-                <span asp-validation-for="Password"></span>
+                <br />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="row justify-content-center my-3 px-3">
                 <input type="submit" value="Login" class="btn btn-outline-danger" />
