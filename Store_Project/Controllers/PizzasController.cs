@@ -156,6 +156,10 @@ namespace Store_Project.Controllers
             {
                 return NotFound();
             }
+            if (!pizza.To_present)
+            {
+                return NotFound();
+            }
 
             return View(pizza);
         }

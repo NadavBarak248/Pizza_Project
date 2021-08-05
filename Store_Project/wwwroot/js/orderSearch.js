@@ -7,7 +7,6 @@
         var temp = template;
 
         $.each(val, function (key, value) {
-            console.log(key)
             if (key == "pizzaOrder") {
                 var base = "<a href='\\Pizzas\\Details\\{id}'>{name}</a> ";
                 var pizzas = '';
